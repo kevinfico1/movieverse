@@ -1,7 +1,7 @@
 <header class="topbar" id="navbar">
   <div class="logo-wrapper">
     <a href="index.php" class="logo">
-      <img src="planarcadia.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+      <img src="asset/planarcadia.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
       Planarcadia
     </a>
     <!-- Tombol Tanda Panah Ke Bawah -->

@@ -1,0 +1,175 @@
+.site-footer {
+  width: 100%;
+  background-color: #191c2a;
+  border-top: 1px solid #2d3042;
+  padding: 35px 60px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: auto;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-brand {
+  font-size: 26px;
+  font-weight: 800;
+  color: #f5f5fa;
+  letter-spacing: 1px;
+}
+
+.footer-brand span {
+  color: #8278f0;
+}
+
+.scroll-top-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #8278f0;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.scroll-top-btn:hover {
+  background-color: #a096ff;
+  transform: translateY(-3px);
+}
+
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #2d3042;
+}
+
+.footer-middle {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1.2fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.footer-col h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f5f5fa;
+  margin-bottom: 12px;
+}
+
+.footer-about .footer-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a5a7b8;
+}
+
+.footer-links-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.link-subcol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Menyamakan gaya tag <a> (Home) dan tag <span> (Menu lainnya) */
+.link-subcol a,
+.link-subcol span {
+  color: #a5a7b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  transition: color 0.25s ease;
+}
+
+/* Efek hover HANYA untuk tag <a> (Home) */
+.link-subcol a:hover {
+  color: #8278f0;
+}
+
+.social-circles {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.circle-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: #2d3042;
+  color: #f5f5fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.circle-btn:hover {
+  background-color: #8278f0;
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 4px;
+}
+
+.footer-bottom p {
+  font-size: 14px;
+  color: #a5a7b8;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 900px) {
+  .hero-banner {
+    margin: 90px 20px 20px 20px;
+    padding: 30px;
+  }
+
+  .katalog-container {
+    padding: 10px 20px 30px 20px;
+  }
+
+  .movie-card {
+    flex: 0 0 calc(33.333% - 14px);
+  }
+
+  .footer-middle {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-banner {
+    padding: 24px;
+  }
+
+  .movie-card {
+    flex: 0 0 calc(50% - 10px);
+    min-width: 130px;
+  }
+
+  .footer-middle {
+    grid-template-columns: 1fr;
+  }
+}

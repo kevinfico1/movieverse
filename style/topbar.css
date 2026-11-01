@@ -1,0 +1,126 @@
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  background-color: #191c2a;
+  border-bottom: 1px solid #2d3042;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.topbar.scrolled {
+  background-color: rgba(25, 28, 42, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #f5f5fa;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.dropdown-btn {
+  background-color: #8278f0;
+  border: none;
+  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.25s ease;
+}
+
+.dropdown-btn i {
+  transition: transform 0.25s ease;
+}
+
+.dropdown-btn:hover {
+  background-color: #a096ff;
+  transform: scale(1.08);
+}
+
+.dropdown-btn.active i {
+  transform: rotate(-90deg);
+}
+
+.header-dropdown {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  background: rgba(25, 28, 42, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 6px 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-15px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.dropdown-item {
+  color: #f5f5fa;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  background: rgba(130, 120, 240, 0.15);
+  border: 1px solid rgba(130, 120, 240, 0.3);
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #8278f0;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.dropdown-item.active {
+  background-color: #8278f0;
+  color: #ffffff;
+}

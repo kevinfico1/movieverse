@@ -22,20 +22,20 @@
       <div class="link-subcol">
         <h4>Navigasi</h4>
         <a href="index.php">Home</a>
-        <a href="index.php#katalog">Daftar Film</a>
-        <a href="index.php#series">Series</a>
+        <span>Daftar Film</span>
+        <span>Series</span>
       </div>
       <div class="link-subcol">
         <h4>Genre</h4>
-        <a href="#">Action</a>
-        <a href="#">Sci-Fi</a>
-        <a href="#">Adventure</a>
+        <span>Action</span>
+        <span>Sci-Fi</span>
+        <span>Adventure</span>
       </div>
       <div class="link-subcol">
         <h4>Bantuan</h4>
-        <a href="#">FAQ</a>
-        <a href="#">Kontak</a>
-        <a href="#">Privasi</a>
+        <span>FAQ</span>
+        <span>Kontak</span>
+        <span>Privasi</span>
       </div>
     </div>
 

@@ -21,10 +21,10 @@ try {
 }
 
 // Data sesuai desain gambar
-$judul     = !empty($film['judul']) ? $film['judul'] : 'The Boys';
+$judul     = !empty($film['judul']) ? $film['judul'] : 'Vision Quest';
 $rating    = !empty($film['rating']) ? $film['rating'] : '8.3';
 $deskripsi = !empty($film['deskripsi']) ? $film['deskripsi'] : 'Serial ini akan berfokus pada karakter White Vision (Paul Bettany) yang diperkenalkan dalam WandaVision. Plotnya mengikuti perjalanan sintozoid tersebut saat ia berusaha memulihkan ingatannya yang hilang, mengeksplorasi kembali identitas dan keberadaannya, serta mencari tujuan baru dalam hidupnya setelah kehilangan keterikatan emosionalnya di Westview.';
-$poster    = !empty($film['poster']) ? $film['poster'] : 'https://i.pinimg.com/736x/34/42/4a/34424a58ff9af4becbd5b729a5af98bc.jpg';
+$poster    = !empty($film['poster']) ? $film['poster'] : 'https://i.pinimg.com/736x/9d/57/7e/9d577e728888b03995b0010d48204be3.jpg';
 
 // Daftar Episode
 $episode = [
@@ -36,17 +36,17 @@ $episode = [
 // Daftar Film / Series Serupa
 $serupa = [
     [
-        'judul'  => 'WandaVision', 
+        'judul'  => 'Lanterns', 
         'rating' => '8.3', 
         'poster' => 'https://i.pinimg.com/736x/c2/77/fb/c277fb23118b1431d2bb75e13ffceed9.jpg'
     ],
     [
-        'judul'  => 'Agatha All Along', 
+        'judul'  => 'Daredevil', 
         'rating' => '7.3', 
         'poster' => 'https://i.pinimg.com/736x/11/2f/48/112f48d07127371768708c60ed4995b4.jpg'
     ],
     [
-        'judul'  => 'Severance', 
+        'judul'  => 'Spider Noir', 
         'rating' => '8.3', 
         'poster' => 'https://i.pinimg.com/736x/18/20/f9/1820f96840b28134f8b78f5475b586e1.jpg'
     ],
@@ -59,7 +59,10 @@ $serupa = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= e($judul) ?> - Planarcadia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="style/topbar.css">
+  <link rel="stylesheet" href="style/detail.css">
+  <link rel="stylesheet" href="style/footer.css">
 </head>
 <body class="detail-page-body">
 
@@ -91,7 +94,7 @@ $serupa = [
 
         <!-- Kartu 1 Key -->
         <aside class="key-card">
-          <img class="key-img" src="key.png" alt="Key" onerror="this.style.display='none'">
+          <img class="key-img" src="asset/key.png" alt="Key" onerror="this.style.display='none'">
           <div class="key-bottom">
             <span class="key-text">1 Key</span>
             <button class="btn-small">Get more</button>
@@ -117,7 +120,6 @@ $serupa = [
             <div class="similar-item">
               <div class="similar-thumb">
                 <img src="<?= e($item['poster']) ?>" alt="<?= e($item['judul']) ?>" onerror="this.style.display='none'">
-                <i class="fa-regular fa-image"></i>
               </div>
               <div class="similar-info">
                 <h4><?= e($item['judul']) ?></h4>
@@ -136,6 +138,6 @@ $serupa = [
 
   <?php include 'components/landing/footer.php'; ?>
 
-  <script src="script.js"></script>
+  <script src="script/script.js"></script>
 </body>
 </html>
