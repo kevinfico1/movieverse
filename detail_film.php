@@ -66,7 +66,7 @@ $serupa = [
 </head>
 <body class="detail-page-body">
 
-  <?php include 'components/landing/header.php'; ?>
+  <?php include 'components/landing/topbar.php'; ?>
 
   <main class="detail-wrap">
     <div class="detail-box">

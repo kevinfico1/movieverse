@@ -20,7 +20,7 @@
 </head>
 <body>
 
-  <?php include 'components/landing/header.php'; ?>
+  <?php include 'components/landing/topbar.php'; ?>
 
   <!-- Hero Banner "THE ODYSSEY" (Lebar Penuh Sampai Ujung) -->
   <section class="hero-banner">
