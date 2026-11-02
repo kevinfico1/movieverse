@@ -1,7 +1,7 @@
 <footer class="site-footer">
   <div class="footer-top">
     <div class="footer-brand">
-      <span>MovieVerse</span>
+      <span>planarcadia</span>
     </div>
     <a href="#" class="scroll-top-btn" aria-label="Kembali ke atas">
       <i class="fa-solid fa-arrow-up"></i>
