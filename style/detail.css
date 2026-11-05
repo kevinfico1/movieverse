@@ -141,39 +141,63 @@
   border-color: #ffffff;
 }
 
+/* ================================================= */
+/* BAGIAN KEY CARD (Area Putih Digeser ke Kanan/40%) */
+/* ================================================= */
 .key-card {
   position: relative;
   height: 180px;
-  padding: 20px;
   border-radius: 14px;
   overflow: hidden;
-  background-color: #171a2b;
+  /* Area putih digeser ke kanan pada 40% agar area hitam lebih luas untuk teks "1 Key"[cite: 8] */
+  background: linear-gradient(-135deg, #f3f4fa 40%, #13131a 40%);
   border: 1px solid rgba(130, 120, 240, 0.3);
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
+  padding: 0;
 }
 
 .key-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 100%);
+  display: none;
+}
+
+.key-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 20px;
+  flex: 1;
+  z-index: 2;
+}
+
+.key-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  padding: 10px;
+  z-index: 2;
 }
 
 .key-img {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 100px;
+  position: static;
+  max-width: 100px;
+  max-height: 140px;
+  width: auto;
   height: auto;
+  object-fit: contain;
   pointer-events: none;
+  filter: drop-shadow(0 4px 12px rgba(123, 97, 255, 0.4));
 }
 
 .key-text {
   font-family: 'Syne', sans-serif;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
+  /* Teks putih di atas area gelap */
   color: #ffffff;
   z-index: 2;
 }
@@ -195,6 +219,7 @@
 .btn-small:hover {
   background-color: #a096ff;
 }
+/* ================================================= */
 
 .detail-bottom {
   display: grid;

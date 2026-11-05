@@ -92,17 +92,18 @@ $serupa = [
           </div>
         </div>
 
-        <!-- Kartu 1 Key -->
+        
         <aside class="key-card">
-          <img class="key-img" src="asset/key.png" alt="Key" onerror="this.style.display='none'">
-          <div class="key-bottom">
+          <div class="key-left">
             <span class="key-text">1 Key</span>
             <button class="btn-small">Get more</button>
+          </div>
+          <div class="key-right">
+            <img class="key-img" src="asset/key.png" alt="Key" onerror="this.style.display='none'">
           </div>
         </aside>
       </section>
 
-      <!-- Section Bawah: Episode & Similar -->
       <section class="detail-bottom">
         <div class="episode-col">
           <h2 class="detail-heading">Episode</h2>

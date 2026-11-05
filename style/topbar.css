@@ -124,3 +124,46 @@
   background-color: #8278f0;
   color: #ffffff;
 }
+
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+  margin-right: 15px; 
+}
+
+.topbar-btn {
+  padding: 9px 20px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.topbar-btn.login {
+  background: rgba(130, 120, 240, 0.15);
+  color: #f5f5fa;
+  border: 1px solid rgba(130, 120, 240, 0.3);
+}
+
+.topbar-btn.login:hover {
+  background-color: #8278f0;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.topbar-btn.register {
+  background-color: #8278f0;
+  color: #ffffff;
+  border: 1px solid #8278f0;
+}
+
+.topbar-btn.register:hover {
+  background-color: #a096ff;
+  transform: translateY(-2px);
+}
