@@ -18,10 +18,6 @@ require_once __DIR__ . '/config/database.php';
             <h2 class="auth-title">Register</h2>
             
             <form action="" method="POST">
-                <div class="input-group">
-                    <input type="text" name="username" placeholder="Username" required>
-                    <i class="fa-solid fa-user"></i>
-                </div>
 
                 <div class="input-group">
                     <input type="email" name="email" placeholder="Email" required>
