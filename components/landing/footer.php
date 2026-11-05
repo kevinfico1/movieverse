@@ -3,9 +3,6 @@
     <div class="footer-brand">
       <span>planarcadia</span>
     </div>
-    <a href="#" class="scroll-top-btn" aria-label="Kembali ke atas">
-      <i class="fa-solid fa-arrow-up"></i>
-    </a>
   </div>
 
   <div class="footer-divider"></div>
