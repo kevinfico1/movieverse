@@ -89,7 +89,7 @@
 
 .auth-options {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end ;
   align-items: center;
   font-size: 0.85rem;
   margin-bottom: 2rem;
@@ -100,11 +100,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  cursor: pointer;
-}
-
-.auth-options input[type="checkbox"] {
-  accent-color: #7b61ff;
   cursor: pointer;
 }
 
@@ -152,4 +147,15 @@
 
 .auth-footer a:hover {
   text-decoration: underline;
+}
+
+.auth-body {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    url("../../asset/backgrounds/login_and_register.jpeg  ");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
 }

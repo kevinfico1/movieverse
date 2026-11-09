@@ -9,7 +9,7 @@ require_once __DIR__ . '/config/database.php';
     <title>Register - Planarcadia</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style/base.css">
-    <link rel="stylesheet" href="style/login.css">
+    <link rel="stylesheet" href="style/login_and_register/login.css">
 </head>
 <body class="auth-body">
 

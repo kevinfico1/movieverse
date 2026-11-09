@@ -61,7 +61,7 @@ $serupa = [
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style/base.css">
   <link rel="stylesheet" href="style/topbar.css">
-  <link rel="stylesheet" href="style/detail.css">
+  <link rel="stylesheet" href="style/detail_film/detail.css">
   <link rel="stylesheet" href="style/footer.css">
 </head>
 <body class="detail-page-body">
@@ -99,7 +99,7 @@ $serupa = [
             <button class="btn-small">Get more</button>
           </div>
           <div class="key-right">
-            <img class="key-img" src="asset/key.png" alt="Key" onerror="this.style.display='none'">
+            <img class="key-img" src="asset/photos/key.png" alt="Key" onerror="this.style.display='none'">
           </div>
         </aside>
       </section>

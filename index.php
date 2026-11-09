@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style/base.css">
   <link rel="stylesheet" href="style/topbar.css">
-  <link rel="stylesheet" href="style/hero.css">
-  <link rel="stylesheet" href="style/home.css">
+  <link rel="stylesheet" href="style/home_page/hero.css">
+  <link rel="stylesheet" href="style/home_page/home.css">
   <link rel="stylesheet" href="style/footer.css">
 </head>
 <body>
