@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 
 if (!function_exists('e')) {
     function e($teks) {
@@ -59,14 +59,14 @@ $serupa = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= e($judul) ?> - Planarcadia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="style/base.css">
-  <link rel="stylesheet" href="style/topbar.css">
-  <link rel="stylesheet" href="style/detail_film/detail.css">
-  <link rel="stylesheet" href="style/footer.css">
+  <link rel="stylesheet" href="/../../style/base.css">
+  <link rel="stylesheet" href="/style/auth/topbar.css">
+  <link rel="stylesheet" href="/../../style/detail_film/detail.css">
+  <link rel="stylesheet" href="/style/auth/footer.css">
 </head>
 <body class="detail-page-body">
 
-  <?php include 'components/landing/topbar.php'; ?>
+  <?php require_once __DIR__ . '/../../components/landing/topbar.php'; ?>
 
   <main class="detail-wrap">
     <div class="detail-box">
@@ -99,7 +99,7 @@ $serupa = [
             <button class="btn-small">Get more</button>
           </div>
           <div class="key-right">
-            <img class="key-img" src="asset/photos/key.png" alt="Key" onerror="this.style.display='none'">
+            <img class="key-img" src="/../../asset/photos/key.png" alt="Key" onerror="this.style.display='none'">
           </div>
         </aside>
       </section>
@@ -137,8 +137,8 @@ $serupa = [
     </div>
   </main>
 
-  <?php include 'components/landing/footer.php'; ?>
+  <?php require_once __DIR__ . '/../../components/landing/footer.php'; ?>
 
-  <script src="script/script.js"></script>
+  <script src="/../../script/script.js"></script>
 </body>
 </html>

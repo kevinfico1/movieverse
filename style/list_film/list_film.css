@@ -1,0 +1,281 @@
+/* ===== Halaman Daftar Film (list_film.php) ===== */
+
+.lf-wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 110px 40px 50px;
+}
+
+/* --- Pencarian --- */
+.lf-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 16px;
+  margin-bottom: 36px;
+  background: rgba(25, 28, 42, 0.85);
+  border: 1px solid #2d3042;
+  border-radius: 10px;
+  transition: border-color 0.2s ease;
+}
+
+.lf-search:focus-within {
+  border-color: #8278f0;
+}
+
+.lf-search i {
+  color: #a5a7b8;
+  font-size: 14px;
+}
+
+.lf-search input[type="search"] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f5f5fa;
+  font-size: 14px;
+}
+
+.lf-search input::placeholder {
+  color: #6f7287;
+}
+
+/* --- Hero: judul genre + banner rekomendasi --- */
+.lf-hero {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.lf-genre-title {
+  font-family: 'Syne', 'Segoe UI', sans-serif;
+  font-size: clamp(48px, 7vw, 84px);
+  font-weight: 700;
+  line-height: 1;
+  color: #8278f0;
+  margin-bottom: 22px;
+}
+
+.lf-rec-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #f5f5fa;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.lf-rec-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #8278f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.lf-banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+  min-height: 150px;
+  padding: 22px 26px;
+  color: #f5f5fa;
+  border: 1px solid #2d3042;
+  border-radius: 14px;
+  background:
+    linear-gradient(90deg, rgba(12, 13, 20, 0.95) 25%, rgba(12, 13, 20, 0.35) 100%),
+    linear-gradient(135deg, #2a2d52 0%, #4a3f8f 55%, #1a1d2e 100%);
+}
+
+.lf-banner h2 {
+  font-family: 'Syne', 'Segoe UI', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.lf-banner p {
+  max-width: 340px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #c9cbe0;
+}
+
+.lf-divider {
+  border: none;
+  height: 1px;
+  margin: 32px 0 28px;
+  background: linear-gradient(90deg, rgba(130, 120, 240, 0.5), rgba(255, 255, 255, 0.05));
+}
+
+/* --- Grid kartu film --- */
+.lf-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.lf-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 10px 14px;
+  text-decoration: none;
+  color: #f5f5fa;
+  background: rgba(25, 28, 42, 0.75);
+  border: 1px solid #2d3042;
+  border-radius: 12px;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.lf-card:hover {
+  border-color: #8278f0;
+  transform: translateY(-4px);
+}
+
+.lf-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+  background: hsl(var(--hue), 45%, 14%);
+}
+
+.lf-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Artwork pengganti poster: gradasi warna + judul besar */
+.lf-art {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  font-family: 'Syne', 'Segoe UI', sans-serif;
+  font-size: clamp(20px, 2.6vw, 30px);
+  font-weight: 800;
+  line-height: 1.05;
+  color: hsl(var(--hue), 80%, 88%);
+  background:
+    radial-gradient(circle at 25% 20%, hsl(var(--hue), 70%, 32%) 0%, transparent 60%),
+    linear-gradient(160deg, hsl(var(--hue), 45%, 16%), #0c0d14);
+}
+
+.lf-rating {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(12, 13, 20, 0.8);
+  border-radius: 6px;
+}
+
+.lf-rating i {
+  color: #f5c542;
+  font-size: 10px;
+}
+
+.lf-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.lf-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+/* judul ter-highlight saat kartu di-hover */
+.lf-card:hover .lf-info h3 {
+  color: #a096ff;
+}
+
+.lf-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  list-style: none;
+}
+
+.lf-tags li {
+  padding: 2px 8px;
+  font-size: 10px;
+  color: #c9cbe0;
+  border: 1px solid #3a3e58;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* genre ter-highlight saat di-hover */
+.lf-tags li:hover {
+  background: #8278f0;
+  border-color: #8278f0;
+  color: #fff;
+}
+
+.lf-tags li.on {
+  background: #8278f0;
+  border-color: #8278f0;
+  color: #fff;
+}
+
+.lf-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #a5a7b8;
+}
+
+.lf-eps i {
+  margin-left: 4px;
+  color: #8278f0;
+}
+
+.lf-empty {
+  padding: 50px 0;
+  text-align: center;
+  color: #a5a7b8;
+}
+
+.lf-empty a {
+  color: #8278f0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .lf-wrap { padding: 100px 20px 40px; }
+  .lf-hero { grid-template-columns: 1fr; }
+  .lf-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 560px) {
+  .lf-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lf-card, .lf-info h3, .lf-tags li { transition: none; }
+}
