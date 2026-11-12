@@ -7,13 +7,7 @@ if (!function_exists('e')) {
     }
 }
 
-// ---------------------------------------------------------------
-// Data film (sementara statis, sesuai desain).
-// 'poster' diisi path lokal, mis. '/asset/photos/the_boys.jpg'.
-// Kalau kosong / file tidak ada, kartu otomatis pakai artwork CSS
-// berisi judul film, jadi tidak butuh gambar dari luar.
-// Nanti bisa diganti query ke tabel `film` (lihat detail_film.php).
-// ---------------------------------------------------------------
+
 $semua_film = [
     ['id' => 1, 'judul' => 'The Boys',    'rating' => '8.7', 'tahun' => 2026, 'episode' => 3, 'warna' => 215, 'poster' => '', 'genre' => ['Action', 'Crime', 'Drama', 'Thriller']],
     ['id' => 2, 'judul' => 'Peace Maker', 'rating' => '8.3', 'tahun' => 2026, 'episode' => 3, 'warna' => 8,   'poster' => '', 'genre' => ['Action', 'Crime', 'Drama', 'Thriller']],
@@ -23,14 +17,13 @@ $semua_film = [
     ['id' => 6, 'judul' => 'S.W.A.T.',    'rating' => '6.8', 'tahun' => 2026, 'episode' => 3, 'warna' => 28,  'poster' => '', 'genre' => ['Action', 'Crime', 'Drama', 'Thriller']],
 ];
 
-// Rekomendasi minggu ini (banner besar di atas)
+
 $rekomendasi = [
     'id'        => 7,
     'judul'     => 'Reacher',
     'deskripsi' => 'Jack Reacher, mantan polisi militer, singgah di sebuah kota kecil dan terseret ke dalam konspirasi yang tidak bisa ia abaikan.',
 ];
 
-// Genre aktif & kata kunci pencarian
 $genre = isset($_GET['genre']) ? trim($_GET['genre']) : 'Action';
 $q     = isset($_GET['q']) ? trim($_GET['q']) : '';
 
@@ -40,7 +33,6 @@ $daftar = array_filter($semua_film, function ($film) use ($genre, $q) {
     return $cocok_genre && $cocok_judul;
 });
 
-// Cek poster lokal; kalau tidak ada pakai artwork CSS
 function poster_lokal($path) {
     if ($path === '') return null;
     return file_exists(__DIR__ . '/../../' . ltrim($path, '/')) ? $path : null;
@@ -64,7 +56,6 @@ function poster_lokal($path) {
 
   <main class="lf-wrap">
 
-    <!-- Pencarian -->
     <form class="lf-search" method="get" action="/pages/movies/list_film.php" role="search">
       <input type="hidden" name="genre" value="<?= e($genre) ?>">
       <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -89,7 +80,6 @@ function poster_lokal($path) {
 
     <hr class="lf-divider">
 
-    <!-- Daftar film -->
     <?php if (count($daftar) === 0): ?>
       <p class="lf-empty">
         Tidak ada film yang cocok<?= $q !== '' ? ' dengan "' . e($q) . '"' : '' ?>.
