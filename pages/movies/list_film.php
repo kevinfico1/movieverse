@@ -62,7 +62,7 @@ function poster_lokal($path) {
       <input type="search" name="q" value="<?= e($q) ?>" placeholder="Cari judul film" aria-label="Cari judul film">
     </form>
 
-    <!-- Judul genre + rekomendasi minggu ini -->
+
     <section class="lf-hero">
       <div class="lf-hero-left">
         <h1 class="lf-genre-title"><?= e($genre) ?></h1>
