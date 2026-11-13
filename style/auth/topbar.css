@@ -114,6 +114,12 @@
   transition: all 0.2s ease;
 }
 
+.dropdown-item .reel-icon {
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+}
+
 .dropdown-item:hover {
   background-color: #8278f0;
   color: #ffffff;
