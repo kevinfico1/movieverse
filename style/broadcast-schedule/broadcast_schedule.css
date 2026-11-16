@@ -1,0 +1,164 @@
+[hidden] {
+  display: none !important;
+}
+
+/* Area utama: pita ungu di kiri-kanan, panel gelap di tengah */
+.bs-stage {
+  flex: 1;
+  margin-top: 80px;
+  background: linear-gradient(180deg, #9a90d8 0%, #7b70b9 100%);
+}
+
+.bs-panel {
+  width: 100%;
+  max-width: 980px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 34px 40px 44px;
+  background: #0f111a;
+}
+
+/* --- Judul hari + tab hari --- */
+.bs-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: nowrap;
+}
+
+.bs-title {
+  flex: 0 0 185px;
+  font-family: 'Lexend', 'Segoe UI', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: #f5f5fa;
+}
+
+.bs-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.bs-day {
+  padding: 7px 14px;
+  font-family: 'Lexend', 'Segoe UI', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #f5f5fa;
+  background: #1a1c2b;
+  border: 1px solid #4a4e6e;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.bs-day:hover {
+  border-color: #8278f0;
+  transform: translateY(-1px);
+}
+
+.bs-day.active {
+  background: rgba(130, 120, 240, 0.25);
+  border-color: #8278f0;
+}
+
+.bs-day:focus-visible {
+  outline: 2px solid #a096ff;
+  outline-offset: 2px;
+}
+
+.bs-divider {
+  border: none;
+  height: 2px;
+  margin: 26px 0 30px;
+  background: #d7d8e6;
+  border-radius: 2px;
+}
+
+/* --- Grid poster --- */
+.bs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 28px;
+  animation: bs-fade 0.3s ease;
+}
+
+@keyframes bs-fade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.bs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bs-poster {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border-radius: 14px;
+  background: hsl(var(--hue), 45%, 14%);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.bs-card:hover .bs-poster {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+.bs-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Pengganti poster: gradasi warna + judul besar */
+.bs-art {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+  font-family: 'Lexend', 'Segoe UI', sans-serif;
+  font-size: clamp(16px, 2.2vw, 24px);
+  font-weight: 600;
+  line-height: 1.1;
+  color: hsl(var(--hue), 80%, 90%);
+  background:
+    radial-gradient(circle at 30% 18%, hsl(var(--hue), 70%, 34%) 0%, transparent 62%),
+    linear-gradient(165deg, hsl(var(--hue), 45%, 18%), #0c0d14);
+}
+
+.bs-card figcaption {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #e8e8f2;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  .bs-head { flex-wrap: wrap; }
+  .bs-panel { padding: 28px 24px 36px; }
+  .bs-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .bs-title { flex: 1 0 100%; }
+}
+
+@media (max-width: 560px) {
+  .bs-stage { margin-top: 70px; }
+  .bs-panel { padding: 22px 16px 30px; }
+  .bs-title { font-size: 28px; }
+  .bs-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-grid { animation: none; }
+  .bs-day, .bs-poster { transition: none; }
+}
