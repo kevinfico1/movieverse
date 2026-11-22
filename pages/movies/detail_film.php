@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../repositories/detail_film_repository.php';
 
 if (!function_exists('e')) {
     function e($teks) {
@@ -8,17 +8,7 @@ if (!function_exists('e')) {
 }
 
 $film_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
-$film = null;
-
-try {
-    if (isset($pdo)) {
-        $stmt = $pdo->prepare("SELECT * FROM film WHERE id = :id");
-        $stmt->execute(['id' => $film_id]);
-        $film = $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-} catch (PDOException $ex) {
-    // koneksi gagal: pakai data cadangan
-}
+$film    = ambil_film_by_id($film_id);
 
 // Data sesuai desain gambar
 $judul     = !empty($film['judul']) ? $film['judul'] : 'Vision Quest';
@@ -26,31 +16,8 @@ $rating    = !empty($film['rating']) ? $film['rating'] : '8.3';
 $deskripsi = !empty($film['deskripsi']) ? $film['deskripsi'] : 'Serial ini akan berfokus pada karakter White Vision (Paul Bettany) yang diperkenalkan dalam WandaVision. Plotnya mengikuti perjalanan sintozoid tersebut saat ia berusaha memulihkan ingatannya yang hilang, mengeksplorasi kembali identitas dan keberadaannya, serta mencari tujuan baru dalam hidupnya setelah kehilangan keterikatan emosionalnya di Westview.';
 $poster    = !empty($film['poster']) ? $film['poster'] : 'https://i.pinimg.com/736x/9d/57/7e/9d577e728888b03995b0010d48204be3.jpg';
 
-// Daftar Episode
-$episode = [
-    'No Strings',
-    'Theseus',
-    'Reboot'
-];
-
-// Daftar Film / Series Serupa
-$serupa = [
-    [
-        'judul'  => 'Lanterns', 
-        'rating' => '8.3', 
-        'poster' => 'https://i.pinimg.com/736x/c2/77/fb/c277fb23118b1431d2bb75e13ffceed9.jpg'
-    ],
-    [
-        'judul'  => 'Daredevil', 
-        'rating' => '7.3', 
-        'poster' => 'https://i.pinimg.com/736x/11/2f/48/112f48d07127371768708c60ed4995b4.jpg'
-    ],
-    [
-        'judul'  => 'Spider Noir', 
-        'rating' => '8.3', 
-        'poster' => 'https://i.pinimg.com/736x/18/20/f9/1820f96840b28134f8b78f5475b586e1.jpg'
-    ],
-];
+$episode = ambil_episode();
+$serupa  = ambil_serupa();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -59,19 +26,18 @@ $serupa = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= e($judul) ?> - Planarcadia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="/../../style/base.css">
+  <link rel="stylesheet" href="/style/base.css">
   <link rel="stylesheet" href="/style/auth/topbar.css">
-  <link rel="stylesheet" href="/../../style/detail_film/detail.css">
+  <link rel="stylesheet" href="/style/detail_film/detail.css">
   <link rel="stylesheet" href="/style/auth/footer.css">
 </head>
 <body class="detail-page-body">
 
-  <?php require_once __DIR__ . '/../../components/landing/topbar.php'; ?>
+  <?php include __DIR__ . '/../../components/landing/topbar.php'; ?>
 
   <main class="detail-wrap">
     <div class="detail-box">
 
-      <!-- Section Atas: Hero Banner & Info Film -->
       <section class="detail-top">
         <div class="detail-poster">
           <img src="<?= e($poster) ?>" alt="<?= e($judul) ?>"
@@ -87,19 +53,18 @@ $serupa = [
           <p class="detail-desc"><?= e($deskripsi) ?></p>
 
           <div class="detail-actions">
-            <button class="btn-primary"><i class="fa-solid fa-lock"></i> Watch</button>
+            <button class="btn-primary"><img class="lock-icon" src="/asset/photos/lock.png" alt="Lock"> Watch</button>
             <button class="btn-secondary"><i class="fa-regular fa-bookmark"></i> Add</button>
           </div>
         </div>
 
-        
         <aside class="key-card">
           <div class="key-left">
             <span class="key-text">1 Key</span>
             <button class="btn-small">Get more</button>
           </div>
           <div class="key-right">
-            <img class="key-img" src="/../../asset/photos/key.png" alt="Key" onerror="this.style.display='none'">
+            <img class="key-img" src="/asset/photos/key.png" alt="Key" onerror="this.style.display='none'">
           </div>
         </aside>
       </section>
@@ -110,7 +75,7 @@ $serupa = [
           <?php foreach ($episode as $nama): ?>
             <div class="episode-item">
               <span><?= e($nama) ?></span>
-              <button class="open-btn"><i class="fa-solid fa-lock"></i> OPEN</button>
+              <button class="open-btn"><img class="lock-icon" src="/asset/photos/lock.png" alt="Lock"> OPEN</button>
             </div>
           <?php endforeach; ?>
         </div>
@@ -137,8 +102,8 @@ $serupa = [
     </div>
   </main>
 
-  <?php require_once __DIR__ . '/../../components/landing/footer.php'; ?>
+  <?php include __DIR__ . '/../../components/landing/footer.php'; ?>
 
-  <script src="/../../script/script.js"></script>
+  <script src="/script/script.js"></script>
 </body>
 </html>
