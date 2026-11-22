@@ -11,36 +11,32 @@ function film($judul, $warna, $poster = '') {
     return ['judul' => $judul, 'warna' => $warna, 'poster' => $poster];
 }
 
+// Link ke halaman detail film (ubah di sini kalau parameter halaman detailmu beda)
+function link_detail($judul) {
+    return '/pages/movies/detail_film.php?judul=' . urlencode($judul);
+}
+
+// Daftar film (dipakai semua hari, jadi gambar cukup diisi sekali di sini)
+// Format: film('Judul', warna, 'lokasi file gambar ATAU link gambar')
+$film_harian = [
+    film('Ted',             135, 'https://i.pinimg.com/736x/48/ae/09/48ae0932ec9fd9cb5a69f5f52ab182db.jpg'),
+    film('Loki (Season 2)', 110, 'https://i.pinimg.com/736x/80/3d/b4/803db4d3fb0b7de9bf8a6afebbd49db4.jpg'),
+    film('Moonknight',      220, 'https://i.pinimg.com/736x/7b/c2/e5/7bc2e55176c3763545d869cc1d33ae15.jpg'),
+    film('The Mentalist',    20, 'https://i.pinimg.com/1200x/3a/b7/08/3ab70800ec4755b3cd92382c41544c4f.jpg'),
+    film('Wednesday',       265, 'https://i.pinimg.com/736x/92/bc/09/92bc090faff90be339a435fc322ea511.jpg'),
+    film('Stranger Things', 345, 'https://i.pinimg.com/736x/de/11/d9/de11d91843c02c300b52cf5a9345b9d9.jpg'),
+    film('Severance',       200, 'https://i.pinimg.com/1200x/10/dd/d4/10ddd4b1754ece422f20b54cdba3174d.jpg'),
+    film('The Rookie',      190, 'https://i.pinimg.com/736x/b9/10/46/b910468afe3d7cdc8229080b11ca8ee1.jpg'),
+];
 
 $jadwal = [
-    'Sunday' => [
-        film('The Boys', 215), film('Peacemaker', 8), film('The Punisher', 0), film('The Old Man', 35),
-        film('The Penguin', 350), film('S.W.A.T.', 28), film('Reacher', 45), film('Dexter', 0),
-    ],
-    'Monday' => [
-        film('Breaking Bad', 120), film('Better Call Saul', 30), film('Fargo', 200), film('Ozark', 190),
-        film('Narcos', 15), film('Mindhunter', 210), film('Dark', 230), film('Money Heist', 355),
-    ],
-    'Tuesday' => [
-        film('The Last of Us', 95), film('House of the Dragon', 10), film('Game of Thrones', 220), film('The Witcher', 205),
-        film('Arcane', 290), film('The Bear', 25), film('Shogun', 5), film('Fallout', 60),
-    ],
-    'Wednesday' => [
-        film('Squid Game', 330), film('Black Mirror', 240), film('The Crown', 270), film('Lupin', 215),
-        film('Sherlock', 20), film('Peaky Blinders', 40), film('Vikings', 195), film('Gotham', 250),
-    ],
-    'Thursday' => [
-        film('Daredevil', 0), film('Jessica Jones', 300), film('Luke Cage', 48), film('Iron Fist', 140),
-        film('Agents of S.H.I.E.L.D.', 205), film('Arrow', 130), film('The Flash', 5), film('Supergirl', 200),
-    ],
-    'Friday' => [
-        film('Ted', 135), film('Loki (Season 2)', 110), film('Moonknight', 220), film('The Mentalist', 20),
-        film('Wednesday', 265), film('Stranger Things', 345), film('Severance', 200), film('The Rookie', 190),
-    ],
-    'Saturday' => [
-        film('Doctor Who', 225), film('The Mandalorian', 30), film('Andor', 180), film('Ahsoka', 190),
-        film('Star Trek: Strange New Worlds', 210), film('The Expanse', 25), film('Foundation', 215), film('Silo', 40),
-    ],
+    'Sunday'    => $film_harian,
+    'Monday'    => $film_harian,
+    'Tuesday'   => $film_harian,
+    'Wednesday' => $film_harian,
+    'Thursday'  => $film_harian,
+    'Friday'    => $film_harian,
+    'Saturday'  => $film_harian,
 ];
 
 $hari_aktif = date('l'); // nama hari ini dalam bahasa Inggris, mis. "Friday"
@@ -64,6 +60,15 @@ function poster_lokal($path) {
   <link rel="stylesheet" href="/style/auth/topbar.css">
   <link rel="stylesheet" href="/style/broadcast-schedule/broadcast_schedule.css">
   <link rel="stylesheet" href="/style/auth/footer.css">
+  <style>
+    /* Poster seragam seperti di desain */
+    .bs-poster { aspect-ratio: 2 / 3; border-radius: 14px; overflow: hidden; }
+    .bs-poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bs-card figcaption { font-family: monospace; font-size: 9px; text-transform: uppercase; margin-top: 6px; }
+
+    /* Poster bisa diklik (tampilan tidak berubah) */
+    .bs-link { text-decoration: none; color: inherit; display: block; }
+  </style>
 </head>
 <body>
 
@@ -101,16 +106,18 @@ function poster_lokal($path) {
              <?= $aktif ? '' : 'hidden' ?>>
           <?php foreach ($daftar as $f): ?>
             <?php $poster = poster_lokal($f['poster']); ?>
-            <figure class="bs-card">
-              <div class="bs-poster" style="--hue: <?= (int)$f['warna'] ?>">
-                <?php if ($poster): ?>
-                  <img src="<?= e($poster) ?>" alt="<?= e($f['judul']) ?>" loading="lazy">
-                <?php else: ?>
-                  <span class="bs-art"><?= e($f['judul']) ?></span>
-                <?php endif; ?>
-              </div>
-              <figcaption><?= e($f['judul']) ?></figcaption>
-            </figure>
+            <a class="bs-link" href="<?= e(link_detail($f['judul'])) ?>">
+              <figure class="bs-card">
+                <div class="bs-poster" style="--hue: <?= (int)$f['warna'] ?>">
+                  <?php if ($poster): ?>
+                    <img src="<?= e($poster) ?>" alt="<?= e($f['judul']) ?>" loading="lazy">
+                  <?php else: ?>
+                    <span class="bs-art"><?= e($f['judul']) ?></span>
+                  <?php endif; ?>
+                </div>
+                <figcaption><?= e($f['judul']) ?></figcaption>
+              </figure>
+            </a>
           <?php endforeach; ?>
         </div>
       <?php endforeach; ?>
