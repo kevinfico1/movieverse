@@ -1,32 +1,25 @@
 <?php
-// Mulai session supaya jumlah kunci bisa disimpan
 session_start();
 
-// Ambil data genre dari file lain
 require_once 'genre_repositories.php';
 
-// Kalau belum punya kunci, mulai dari 0
 if (!isset($_SESSION['kunci'])) {
     $_SESSION['kunci'] = 0;
 }
 
-// Pesan hasil klaim (awalnya kosong)
 $pesan = "";
 
-// Kalau ada pet yang ditekan (form dikirim)
 if (isset($_POST['pet'])) {
 
     $pet = $_POST['pet'];
 
-    // ECHO: selalu dapat 1 kunci
     if ($pet == "echo") {
         $_SESSION['kunci'] = $_SESSION['kunci'] + 1;
         $pesan = "Echo memberi kamu 1 kunci bonus!";
     }
 
-    // AHA: peluang 20% dapat 1 kunci
     if ($pet == "aha") {
-        $angka = rand(1, 100); // ambil angka acak 1 sampai 100
+        $angka = rand(1, 100);
 
         if ($angka <= 20) {
             $_SESSION['kunci'] = $_SESSION['kunci'] + 1;
@@ -61,7 +54,6 @@ if (isset($_POST['pet'])) {
     <h1>Genre</h1>
   </div>
 
-  <!-- Pesan hasil klaim (hanya muncul kalau sudah klaim) -->
   <?php if ($pesan != "") { ?>
     <div class="pesan-klaim" id="pesanKlaim">
       <i class="fa-solid fa-key"></i>
@@ -69,13 +61,10 @@ if (isset($_POST['pet'])) {
     </div>
   <?php } ?>
 
-  <!-- Isi halaman -->
   <div class="isi">
 
-    <!-- Panel ungu di belakang (bentuk panah) -->
     <div class="panel-ungu"></div>
 
-    <!-- Kiri: 6 kartu genre (datanya dari genre_repositories.php) -->
     <div class="kolom-genre">
       <?php foreach ($genre as $g) { ?>
         <a href="index.php?genre=<?php echo $g[0]; ?>"
@@ -87,10 +76,8 @@ if (isset($_POST['pet'])) {
       <?php } ?>
     </div>
 
-    <!-- Kanan: 2 pet (bisa ditekan untuk klaim kunci) -->
     <div class="kolom-pet">
 
-      <!-- Echo -->
       <form method="POST">
         <input type="hidden" name="pet" value="echo">
         <button type="submit" class="kartu-pet echo">
@@ -103,7 +90,6 @@ if (isset($_POST['pet'])) {
         </button>
       </form>
 
-      <!-- Aha!! -->
       <form method="POST" id="formAha">
         <input type="hidden" name="pet" value="aha">
         <button type="submit" class="kartu-pet aha">
