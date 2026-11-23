@@ -4,7 +4,7 @@
       <img src="/asset/photos/planarcadia.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
       Planarcadia
     </a>
-    <!-- Tombol Tanda Panah Ke Bawah -->
+
     <button class="dropdown-btn" id="dropdownToggle">
       <i class="fa-solid fa-chevron-down"></i>
     </button>

@@ -6,7 +6,6 @@ if (!function_exists('e')) {
     }
 }
 
-// Ambil SEMUA film (kuncinya adalah id film)
 function ambil_semua_film() {
     return [
 
@@ -87,7 +86,6 @@ function ambil_semua_film() {
             'genre'  => ['Action', 'Crime', 'Drama', 'Thriller'],
         ],
 
-        // ----- Film untuk halaman Broadcast Schedule -----
         11 => [
             'judul'  => 'Ted',
             'warna'  => 135,

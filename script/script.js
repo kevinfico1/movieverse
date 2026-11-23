@@ -1,4 +1,3 @@
-// 1. Navbar berubah warna/efek saat di-scroll
 const navbar = document.getElementById("navbar");
 
 if (navbar) {
@@ -11,7 +10,6 @@ if (navbar) {
   };
 }
 
-// 2. Buka/Tutup Menu Dropdown Header
 const dropdownBtn = document.getElementById("dropdownToggle");
 const dropdownMenu = document.getElementById("headerDropdown");
 

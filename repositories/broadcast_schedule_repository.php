@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/detail_film_repository.php';
 
-// Jadwal tayang: hari => daftar judul film
 function ambil_jadwal_judul() {
     $film_harian = [
         'Ted', 'Loki (Season 2)', 'Moonknight', 'The Mentalist',

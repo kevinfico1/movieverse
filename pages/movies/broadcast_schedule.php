@@ -8,7 +8,7 @@ $hari_aktif = 'Friday';
 
 function poster_lokal($path) {
     if ($path === '') return null;
-    if (preg_match('#^https?://#i', $path)) return $path; // link gambar (URL)
+    if (preg_match('#^https?://#i', $path)) return $path;
     return file_exists(__DIR__ . '/../../' . ltrim($path, '/')) ? '/' . ltrim($path, '/') : null;
 }
 ?>

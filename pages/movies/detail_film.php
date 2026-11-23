@@ -10,7 +10,6 @@ if (!function_exists('e')) {
 $film_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
 $film    = ambil_film_by_id($film_id);
 
-// Data sesuai desain gambar
 $judul     = !empty($film['judul']) ? $film['judul'] : 'Vision Quest';
 $rating    = !empty($film['rating']) ? $film['rating'] : '8.3';
 $deskripsi = !empty($film['deskripsi']) ? $film['deskripsi'] : 'Serial ini akan berfokus pada karakter White Vision (Paul Bettany) yang diperkenalkan dalam WandaVision. Plotnya mengikuti perjalanan sintozoid tersebut saat ia berusaha memulihkan ingatannya yang hilang, mengeksplorasi kembali identitas dan keberadaannya, serta mencari tujuan baru dalam hidupnya setelah kehilangan keterikatan emosionalnya di Westview.';
