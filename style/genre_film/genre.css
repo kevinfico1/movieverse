@@ -1,0 +1,235 @@
+/* ===== Latar halaman ===== */
+.genre-page-body {
+  background-color: #2d3042;
+  background-image: none;
+}
+
+/* ===== Bar atas ===== */
+.bar-atas {
+  height: 68px;
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  background-color: #2d3042;
+}
+
+.tombol-home {
+  padding: 7px 14px;
+  background-color: #7f75ee;
+  color: white;
+  border-radius: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.tombol-home:hover {
+  background-color: #a096ff;
+  transform: translateY(-2px);
+}
+
+/* ===== Judul Genre ===== */
+.judul-genre {
+  padding: 26px 80px 8px 80px;
+  background-color: #151826;
+  border-bottom: 3px solid white;
+}
+
+.judul-genre h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 80px;
+  font-weight: 800;
+  color: #7f75ee;
+}
+
+/* ===== Pesan klaim kunci ===== */
+.pesan-klaim {
+  padding: 12px 20px;
+  background-color: #191c2a;
+  color: #ffd34d;
+  font-family: 'Syne', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #7f75ee;
+}
+
+/* ===== Isi halaman ===== */
+.isi {
+  position: relative; /* supaya panel ungu bisa ditaruh di belakang */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 52px 40px 52px 80px;
+  background-color: #1b1f32;
+  overflow: hidden;
+}
+
+/* Panel ungu bentuk panah (clip-path memotong kotak jadi bentuk panah) */
+.panel-ungu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 52%;
+  background-color: #7269d6;
+  clip-path: polygon(0 50%, 34% 0, 100% 0, 100% 100%, 34% 100%);
+}
+
+/* ===== Kolom kiri: kartu genre ===== */
+.kolom-genre {
+  position: relative;
+  width: 45%;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 kolom */
+  gap: 28px 26px;
+}
+
+.kartu-genre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 90px;
+  padding: 0 12px;
+  border: 2px solid #a99cff;
+  border-radius: 12px;
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.ikon-genre {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8f84f0;
+  color: #1b1f32;
+  font-size: 20px;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.nama-genre {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px 6px black;
+}
+
+/* Efek saat kartu genre di-hover */
+.kartu-genre:hover {
+  transform: translateY(-5px) scale(1.04);
+  border-color: white;
+  box-shadow: 0 10px 25px rgba(127, 117, 238, 0.7);
+}
+
+.kartu-genre:hover .ikon-genre {
+  background-color: white;
+  color: #6a5fe0;
+  transform: rotate(-12deg);
+}
+
+/* ===== Kolom kanan: pet ===== */
+.kolom-pet {
+  position: relative;
+  width: 31%;
+}
+
+.kolom-pet form {
+  margin-bottom: 24px;
+}
+
+/* Kartu pet adalah tombol, jadi gayanya direset dulu */
+.kartu-pet {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 22px;
+  background-color: #191c2a;
+  color: white;
+  text-align: left;
+  font-family: inherit;
+  border: 1px solid #8a8d9e;
+  border-radius: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.gambar-pet {
+  width: 80px;
+  height: 80px;
+  border-radius: 14px;
+  background-color: #f2f2f2;
+}
+
+.info-pet h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px;
+  color: white;
+}
+
+.info-pet span {
+  display: block;
+  margin-bottom: 8px;
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.deskripsi {
+  padding: 8px 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9.5px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  border-radius: 8px;
+}
+
+/* Warna khusus Echo (biru) */
+.echo .gambar-pet { border: 4px solid #4fd1ff; }
+.echo .deskripsi  { border: 1px solid #4fd1ff; }
+.echo:hover {
+  border-color: #4fd1ff;
+  box-shadow: 0 0 20px #4fd1ff;
+}
+
+/* Warna khusus Aha (merah) */
+.aha .gambar-pet { border: 4px solid #ff6b6b; }
+.aha .deskripsi  { border: 1px solid #ff6b6b; }
+.aha:hover {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 20px #ff6b6b;
+}
+
+/* Efek saat pet di-hover dan ditekan */
+.kartu-pet:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.kartu-pet:active {
+  transform: scale(0.97);
+}
+
+/* ===== Tampilan HP / layar kecil ===== */
+@media (max-width: 900px) {
+  .isi {
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px;
+  }
+
+  .panel-ungu {
+    display: none;
+  }
+
+  .kolom-genre,
+  .kolom-pet {
+    width: 100%;
+  }
+}
