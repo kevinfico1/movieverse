@@ -1,8 +1,7 @@
 <?php
-// Film yang ditambahkan lewat halaman admin (disimpan di data/admin_state.json)
 
 const FILM_ADMIN_FILE = __DIR__ . '/../data/admin_state.json';
-const FILM_ADMIN_NID_AWAL = 1000; // id film admin dimulai dari 1001 supaya tidak bentrok dengan film bawaan
+const FILM_ADMIN_NID_AWAL = 1000;
 
 function muat_state_admin() {
     if (!is_file(FILM_ADMIN_FILE)) return null;
@@ -13,7 +12,6 @@ function muat_state_admin() {
     return $data;
 }
 
-// Hanya film admin berstatus Publish yang tampil di Daftar Film
 function ambil_film_admin() {
     $state = muat_state_admin();
     $hasil = [];

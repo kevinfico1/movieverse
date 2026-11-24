@@ -1,8 +1,5 @@
 <?php
-<<<<<<< HEAD
-=======
 require_once __DIR__ . '/film_admin_repository.php';
->>>>>>> 0e76551 (featvito)
 
 if (!function_exists('e')) {
     function e($teks) {
@@ -11,11 +8,7 @@ if (!function_exists('e')) {
 }
 
 function ambil_semua_film() {
-<<<<<<< HEAD
-    return [
-=======
     $film = [
->>>>>>> 0e76551 (featvito)
 
         1 => [
             'judul'     => 'Vision Quest',
@@ -136,12 +129,8 @@ function ambil_semua_film() {
         ],
 
     ];
-<<<<<<< HEAD
-=======
 
-    // Film yang ditambahkan dari halaman admin (status Publish)
     return $film + ambil_film_admin();
->>>>>>> 0e76551 (featvito)
 }
 
 function ambil_film_by_id($id) {

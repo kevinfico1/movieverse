@@ -24,7 +24,6 @@ if (count($masuk['items']) > 200) {
     balas(400, ['ok' => false, 'pesan' => 'Terlalu banyak data']);
 }
 
-// id film admin yang sudah pernah disimpan (supaya link detail tidak berubah)
 $peta = [];
 $nid_maks = FILM_ADMIN_NID_AWAL;
 $lama = muat_state_admin();
@@ -58,7 +57,6 @@ foreach ($masuk['items'] as $it) {
     $tanggal = (string) ($it['tanggal'] ?? '');
     if (!preg_match('#^\d{1,2}/\d{1,2}/\d{4}$#', $tanggal)) $tanggal = date('d/m/Y');
 
-    // Poster: URL, file yang sudah tersimpan, atau gambar baru (data URL) yang disimpan ke asset/uploads
     $poster = (string) ($it['poster'] ?? '');
     if (strpos($poster, 'data:image/') === 0 && ($pos = strpos($poster, ';base64,')) !== false) {
         $tipe  = substr($poster, 11, $pos - 11);
@@ -70,11 +68,8 @@ foreach ($masuk['items'] as $it) {
         } else {
             $poster = '';
         }
-    } elseif (preg_match('#^/asset/uploads/[A-Za-z0-9_.-]+$#', $poster)) {
-        // sudah tersimpan
-    } elseif (preg_match('#^https?://#i', $poster) && strlen($poster) <= 1000) {
-        // URL gambar
-    } else {
+    } elseif (!preg_match('#^/asset/uploads/[A-Za-z0-9_.-]+$#', $poster)
+        && !(preg_match('#^https?://#i', $poster) && strlen($poster) <= 1000)) {
         $poster = '';
     }
 

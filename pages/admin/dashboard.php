@@ -2,7 +2,7 @@
 session_start();
 
 require_once __DIR__ . '/../../repositories/detail_film_repository.php';
-require_once __DIR__ . '/../../repositories/genre.php'; // menyediakan $genre
+require_once __DIR__ . '/../../repositories/genre.php';
 
 require_once __DIR__ . '/../../repositories/film_admin_repository.php';
 
@@ -11,11 +11,9 @@ $genre_default = ['Action', 'Comedy', 'Adventure', 'Crime', 'Thriller', 'Mystery
 
 $state = muat_state_admin();
 if ($state !== null) {
-  // Data yang sudah disimpan admin
   $konten     = $state['items'];
   $genre_awal = $state['genres'] ?: $genre_default;
 } else {
-  // Belum pernah disimpan: pakai film bawaan (4 terakhir yang punya genre)
   $konten = [];
   foreach (array_reverse($semua, true) as $id => $f) {
     if (empty($f['genre'])) continue;
@@ -32,7 +30,7 @@ if ($state !== null) {
   }
   $genre_awal = $genre_default;
 }
-$jumlah_pet = 2; // Echo & Aha (lihat halaman Genre)
+$jumlah_pet = 2;
 
 $stats = [
   ['icon' => 'fa-regular fa-rectangle-list', 'label' => 'Total Series', 'nilai' => count($semua)],
@@ -75,7 +73,6 @@ $stats = [
 
       <div class="adm-grid">
 
-        <!-- Kolom kiri -->
         <div class="adm-left">
           <h2 class="adm-title">Latest edited Content</h2>
 
@@ -125,7 +122,6 @@ $stats = [
           </div>
         </div>
 
-        <!-- Kolom kanan -->
         <aside class="adm-right">
           <h2 class="adm-title">Add/ Edit Media</h2>
 

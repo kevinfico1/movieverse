@@ -25,13 +25,9 @@ function ambil_daftar_film_list() {
             $hasil[] = $film;
         }
     }
-<<<<<<< HEAD
-=======
 
-    // Film tambahan dari halaman admin
     foreach (ambil_film_admin() as $id => $film) {
         $hasil[] = ['id' => $id] + $film;
     }
->>>>>>> 0e76551 (featvito)
     return $hasil;
 }

@@ -11,14 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  // ---------- Penyimpanan (ke server: data/admin_state.json) ----------
-  const ENDPOINT = '/pages/admin/simpan_film.php';
+  const ENDPOINT = '/pages/admin/save_film.php';
   const state = JSON.parse(document.getElementById('dataAwal').textContent);
   state.items.forEach((it, i) => { if (!it.id) it.id = 'awal-' + i; });
   let posterData = '';
   let antrean = Promise.resolve(true);
 
-  // Simpan berurutan; hasilnya true bila berhasil
   const simpan = () => {
     antrean = antrean.then(async () => {
       try {
@@ -30,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.pesan || 'Gagal menyimpan');
 
-        // Ambil alamat poster & id film dari server, tanpa menimpa perubahan yang baru dibuat
         data.items.forEach((r) => {
           const lokal = state.items.find((x) => x.id === r.id);
           if (lokal) { lokal.poster = r.poster; if (r.nid) lokal.nid = r.nid; }
@@ -52,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     catatan.hidden = false;
   };
 
-  // ---------- Tampilan ----------
   const tanggalHariIni = () => {
     const d = new Date();
     const p = (n) => String(n).padStart(2, '0');
@@ -78,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     genreList.innerHTML = state.genres.map((g) => `<span class="chip chip-lg">${esc(g)}</span>`).join('');
   };
 
-  // ---------- Aksi tabel ----------
   list.addEventListener('click', (ev) => {
     const row = ev.target.closest('.adm-item');
     if (!row) return;
@@ -96,7 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ---------- Tambah genre ----------
   document.getElementById('tombolTambahGenre').addEventListener('click', () => {
     const nama = (prompt('Nama genre baru:') || '').trim();
     if (!nama) return;
@@ -108,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
     render(); simpan();
   });
 
-  // ---------- Poster (dikecilkan supaya muat di penyimpanan) ----------
   posterInput.addEventListener('change', () => {
     const file = posterInput.files[0];
     if (!file) return;
@@ -131,11 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
     reader.readAsDataURL(file);
   });
 
-  // Tanggal manual: hanya angka dan "/"
   const fDate = document.getElementById('fDate');
   fDate.addEventListener('input', () => { fDate.value = fDate.value.replace(/[^\d/]/g, ''); });
 
-  // Genre: pisahkan dengan koma, maksimal 4
   const MAKS_GENRE = 4;
   const fGenre = document.getElementById('fGenre');
   const daftarGenre = (teks) => {
@@ -156,7 +147,6 @@ document.addEventListener('DOMContentLoaded', () => {
     posterData = '';
   });
 
-  // ---------- Apply = simpan ----------
   form.addEventListener('submit', (ev) => {
     ev.preventDefault();
     const judul = document.getElementById('fTitle').value.trim();
