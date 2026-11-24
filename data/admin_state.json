@@ -1,0 +1,89 @@
+{
+    "items": [
+        {
+            "id": "baru-1795512361708",
+            "judul": "TEST",
+            "genre": [
+                "ACTION",
+                "DRAMA"
+            ],
+            "status": "Publish",
+            "tanggal": "11\/11\/1111",
+            "poster": "\/asset\/uploads\/film_baru-1795512361708_2edf2a58.jpg",
+            "deskripsi": "TEST TEST",
+            "admin": true,
+            "nid": 1001
+        },
+        {
+            "id": "awal-10",
+            "judul": "S.W.A.T.",
+            "genre": [
+                "Action",
+                "Crime",
+                "Drama",
+                "Thriller"
+            ],
+            "status": "Publish",
+            "tanggal": "24\/11\/2026",
+            "poster": "https:\/\/i.pinimg.com\/1200x\/fe\/4c\/40\/fe4c40761c7b086a873dd38fe8759c99.jpg",
+            "deskripsi": "",
+            "admin": false
+        },
+        {
+            "id": "awal-9",
+            "judul": "The Penguin",
+            "genre": [
+                "Action",
+                "Crime",
+                "Drama",
+                "Thriller"
+            ],
+            "status": "Publish",
+            "tanggal": "24\/11\/2026",
+            "poster": "https:\/\/i.pinimg.com\/736x\/11\/47\/c3\/1147c37b801978ccb665272ff6e64c35.jpg",
+            "deskripsi": "",
+            "admin": false
+        },
+        {
+            "id": "awal-8",
+            "judul": "The Old Man",
+            "genre": [
+                "Action",
+                "Crime",
+                "Drama",
+                "Thriller"
+            ],
+            "status": "Publish",
+            "tanggal": "24\/11\/2026",
+            "poster": "https:\/\/i.pinimg.com\/1200x\/db\/98\/b5\/db98b5ecd72c5e1e6708ca58ac864a03.jpg",
+            "deskripsi": "",
+            "admin": false
+        },
+        {
+            "id": "awal-7",
+            "judul": "The Punisher",
+            "genre": [
+                "Action",
+                "Crime",
+                "Drama",
+                "Thriller"
+            ],
+            "status": "Publish",
+            "tanggal": "24\/11\/2026",
+            "poster": "https:\/\/i.pinimg.com\/1200x\/18\/8f\/85\/188f85b98bc4415f9d0d2c29aecc986d.jpg",
+            "deskripsi": "",
+            "admin": false
+        }
+    ],
+    "genres": [
+        "Action",
+        "Comedy",
+        "Adventure",
+        "Crime",
+        "Thriller",
+        "Mystery",
+        "Drama",
+        "Fantasy",
+        "Documentary"
+    ]
+}
