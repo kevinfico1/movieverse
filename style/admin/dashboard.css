@@ -12,21 +12,6 @@
   min-height: calc(100vh - 80px);
 }
 
-.adm-home {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: 6px;
-  background: #8278f0;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 600;
-  text-decoration: none;
-  margin-bottom: 14px;
-}
-.adm-home:hover { background: #a096ff; }
-
 .adm-hello {
   font-family: 'Syne', 'Segoe UI', sans-serif;
   font-size: 34px;
@@ -150,6 +135,9 @@
 .badge.draft { border-color: #ffa90a; }
 .badge.draft i { background: #ffa90a; }
 .badge:hover { background: #232740; }
+
+.form-satu { margin: 0; }
+span.badge { cursor: default; }
 
 .adm-status { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
 
