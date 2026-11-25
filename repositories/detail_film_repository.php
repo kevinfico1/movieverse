@@ -105,6 +105,7 @@ function ambil_semua_film() {
         14 => [
             'judul'  => 'The Mentalist',
             'warna'  => 20,
+            'rating' => '8.2',
             'poster' => 'https://i.pinimg.com/1200x/3a/b7/08/3ab70800ec4755b3cd92382c41544c4f.jpg',
         ],
         15 => [
@@ -126,6 +127,31 @@ function ambil_semua_film() {
             'judul'  => 'The Rookie',
             'warna'  => 190,
             'poster' => 'https://i.pinimg.com/736x/b9/10/46/b910468afe3d7cdc8229080b11ca8ee1.jpg',
+        ],
+        19 => [
+            'judul'  => 'Avengers Doomsday',
+            'warna'  => 10,
+            'poster' => 'https://i.pinimg.com/736x/18/20/f9/1820f96840b28134f8b78f5475b586e1.jpg',
+            'rating' => '8.5',
+        ],
+        20 => [
+            'judul'  => 'Dexter',
+            'warna'  => 0,
+            'poster' => 'https://i.pinimg.com/736x/bd/68/e8/bd68e8f4c81daac424e4f31b1dc392f3.jpg',
+            'rating' => '8.6',
+        ],
+        21 => [
+            'judul'  => 'Breaking Bad',
+            'warna'  => 120,
+            'poster' => 'https://i.pinimg.com/1200x/b5/da/81/b5da816660ec3f7c2394e26b2671c9f3.jpg',
+            'rating' => '9.5',
+        ],
+        22 => [
+            'judul'     => 'THE ODYSSEY',
+            'warna'     => 210,
+            'poster'    => '/asset/photos/hero1.jpeg',
+            'rating'    => '4.9',
+            'deskripsi' => 'Perjalanan epik melintasi kegelapan dan pertempuran besar dalam mahakarya terbaru arahan Christopher Nolan.',
         ],
 
     ];

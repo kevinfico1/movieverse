@@ -59,15 +59,16 @@
       
       <div class="movie-grid">
         <?php foreach ($trending as $f): ?>
-        <div class="movie-card">
+        <a class="movie-card" href="/pages/movies/detail_film.php?id=<?= (int)$f['id'] ?>">
           <div class="poster-box">
             <img src="<?= e($f['poster']) ?>" alt="<?= e($f['judul']) ?>" onerror="this.style.display='none'">
+            <span class="rating-badge"><i class="fa-solid fa-star"></i> <?= e($f['rating']) ?></span>
           </div>
           <div class="movie-info">
             <h3><?= e($f['judul']) ?></h3>
             <span><?= e($f['tahun']) ?></span>
           </div>
-        </div>
+        </a>
         <?php endforeach; ?>
       </div>
     </section>
@@ -78,15 +79,16 @@
 
       <div class="movie-grid">
         <?php foreach ($series as $f): ?>
-        <div class="movie-card">
+        <a class="movie-card" href="/pages/movies/detail_film.php?id=<?= (int)$f['id'] ?>">
           <div class="poster-box">
             <img src="<?= e($f['poster']) ?>" alt="<?= e($f['judul']) ?>" onerror="this.style.display='none'">
+            <span class="rating-badge"><i class="fa-solid fa-star"></i> <?= e($f['rating']) ?></span>
           </div>
           <div class="movie-info">
             <h3><?= e($f['judul']) ?></h3>
             <span><?= e($f['tahun']) ?></span>
           </div>
-        </div>
+        </a>
         <?php endforeach; ?>
       </div>
     </section>

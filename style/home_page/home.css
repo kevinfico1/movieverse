@@ -77,6 +77,11 @@
   flex-direction: column;
 }
 
+a.movie-card {
+  text-decoration: none;
+  color: inherit;
+}
+
 .movie-card:hover {
   transform: translateY(-6px);
   border-color: #8278f0;
@@ -159,4 +164,35 @@
 .scroll-arrow:hover, .carousel-btn:hover {
   background-color: #a096ff;
   transform: translateY(-50%) scale(1.1);
+}
+
+.poster-box .rating-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 9px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(12, 13, 20, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.poster-box .rating-badge i {
+  color: #f5c542;
+  font-size: 11px;
+}
+
+.movie-card:hover .rating-badge {
+  opacity: 1;
+  transform: translateY(0);
 }
