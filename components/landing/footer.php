@@ -49,6 +49,6 @@
   <div class="footer-divider"></div>
 
   <div class="footer-bottom">
-    <p>Di persembahkan oleh <strong>2 Orang Have dan 1 ayam</strong></p>
+    <p>Di persembahkan oleh <strong>Orang Have</strong></p>
   </div>
 </footer>

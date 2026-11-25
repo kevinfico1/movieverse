@@ -25,9 +25,5 @@ function ambil_daftar_film_list() {
             $hasil[] = $film;
         }
     }
-
-    foreach (ambil_film_admin() as $id => $film) {
-        $hasil[] = ['id' => $id] + $film;
-    }
     return $hasil;
 }

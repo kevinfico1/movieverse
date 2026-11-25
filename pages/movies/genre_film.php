@@ -1,33 +1,103 @@
 <?php
 session_start();
 
-require_once 'genre_repositories.php';
+require_once __DIR__ . '/../../repositories/genre.php';
+
+$max_kunci = 5;
 
 if (!isset($_SESSION['kunci'])) {
     $_SESSION['kunci'] = 0;
 }
 
-$pesan = "";
+if (!isset($_SESSION['klaim'])) {
+    $_SESSION['klaim'] = [];
+}
+
+if (isset($_GET['get_more'])) {
+    $_SESSION['boleh_klaim'] = true;
+}
+
+$pet_aktif = "";
 
 if (isset($_POST['pet'])) {
+    $pet_aktif = $_POST['pet'];
+}
 
-    $pet = $_POST['pet'];
+if (isset($_POST['klaim']) && isset($_POST['pet_klaim'])) {
+    $pet_aktif = $_POST['pet_klaim'];
+}
 
-    if ($pet == "echo") {
-        $_SESSION['kunci'] = $_SESSION['kunci'] + 1;
-        $pesan = "Echo memberi kamu 1 kunci bonus!";
-    }
+if ($pet_aktif != "echo" && $pet_aktif != "aha") {
+    $pet_aktif = "";
+}
 
-    if ($pet == "aha") {
-        $angka = rand(1, 100);
+$hasil = "";
 
-        if ($angka <= 20) {
-            $_SESSION['kunci'] = $_SESSION['kunci'] + 1;
-            $pesan = "Aha!! memberi kamu 1 kunci bonus!";
+if ($pet_aktif != "" && isset($_POST['klaim'])) {
+    $nomor = (int) $_POST['klaim'];
+    $kode  = $pet_aktif . $nomor;
+
+    if (isset($_SESSION['boleh_klaim']) && $nomor >= 1 && $nomor <= 3 && !in_array($kode, $_SESSION['klaim']) && $_SESSION['kunci'] < $max_kunci) {
+
+        $_SESSION['klaim'][] = $kode; 
+
+        $dapat = 0; 
+
+        if ($pet_aktif == "echo") {
+            $dapat = rand(1, 5);
+        }
+
+        if ($pet_aktif == "aha") {
+            $angka = rand(1, 100); 
+
+            if ($angka <= 20) {
+                $dapat = 1;
+            }
+        }
+
+        $tempat = $max_kunci - $_SESSION['kunci'];
+        if ($dapat > $tempat) {
+            $dapat = $tempat;
+        }
+
+        $_SESSION['kunci'] = $_SESSION['kunci'] + $dapat;
+
+        if ($dapat > 0) {
+            $hasil = "You got " . $dapat . " key!";
         } else {
-            $pesan = "Aha!! belum beruntung, coba lagi ya.";
+            $hasil = "No key this time, try again!";
         }
     }
+}
+
+$popup = "";
+
+if ($pet_aktif != "") {
+
+    if (!isset($_SESSION['boleh_klaim'])) {
+        $popup = "terkunci";
+    } else {
+        $sisa = 0;
+        for ($i = 1; $i <= 3; $i++) {
+            if (!in_array($pet_aktif . $i, $_SESSION['klaim'])) {
+                $sisa = $sisa + 1;
+            }
+        }
+
+        if ($sisa == 0 || $_SESSION['kunci'] >= $max_kunci) {
+            $popup = "selesai";
+        } else {
+            $popup = "reward";
+        }
+    }
+}
+
+$nama_pet   = "Echo";
+$gambar_pet = "Echo.png";
+
+if ($pet_aktif == "aha") {
+    $nama_pet   = "Aha";
+    $gambar_pet = "Aha.png";
 }
 ?>
 <!DOCTYPE html>
@@ -38,28 +108,18 @@ if (isset($_POST['pet'])) {
   <title>Genre - Planarcadia</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono&family=Syne:wght@600;700;800&display=swap">
-  <link rel="stylesheet" href="style/base.css">
-  <link rel="stylesheet" href="style/genre_film/genre.css">
-  <link rel="stylesheet" href="style/footer.css">
+  <link rel="stylesheet" href="../../style/base.css">
+  <link rel="stylesheet" href="../../style/auth/topbar.css">
+  <link rel="stylesheet" href="../../style/genre_film/genre.css">
+  <link rel="stylesheet" href="../../style/auth/footer.css">
 </head>
 <body class="genre-page-body">
 
-  <!-- Bar atas -->
-  <div class="bar-atas">
-    <a href="index.php" class="tombol-home"><i class="fa-solid fa-house"></i> Home</a>
-  </div>
+  <?php require_once __DIR__ . '/../../components/landing/topbar.php'; ?>
 
-  <!-- Judul -->
   <div class="judul-genre">
     <h1>Genre</h1>
   </div>
-
-  <?php if ($pesan != "") { ?>
-    <div class="pesan-klaim" id="pesanKlaim">
-      <i class="fa-solid fa-key"></i>
-      <?php echo $pesan; ?> (Total kunci: <?php echo $_SESSION['kunci']; ?>)
-    </div>
-  <?php } ?>
 
   <div class="isi">
 
@@ -67,9 +127,9 @@ if (isset($_POST['pet'])) {
 
     <div class="kolom-genre">
       <?php foreach ($genre as $g) { ?>
-        <a href="index.php?genre=<?php echo $g[0]; ?>"
+        <a href="../../index.php?genre=<?php echo $g[0]; ?>"
            class="kartu-genre"
-           style="background-image: url('asset/genre/<?php echo $g[0]; ?>.jpg'), <?php echo $g[3]; ?>;">
+           style="background-image: url('../../asset/genre/<?php echo $g[0]; ?>.jpg'), <?php echo $g[3]; ?>;">
           <span class="ikon-genre"><i class="<?php echo $g[2]; ?>"></i></span>
           <span class="nama-genre"><?php echo $g[1]; ?></span>
         </a>
@@ -81,7 +141,7 @@ if (isset($_POST['pet'])) {
       <form method="POST">
         <input type="hidden" name="pet" value="echo">
         <button type="submit" class="kartu-pet echo">
-          <img src="asset/genre/echo.svg" alt="Echo" class="gambar-pet">
+          <img src="../../asset/pets/Echo.png" alt="Echo" class="gambar-pet">
           <div class="info-pet">
             <h2>Echo</h2>
             <span>Ability: Resonance</span>
@@ -93,7 +153,7 @@ if (isset($_POST['pet'])) {
       <form method="POST" id="formAha">
         <input type="hidden" name="pet" value="aha">
         <button type="submit" class="kartu-pet aha">
-          <img src="asset/genre/aha.svg" alt="Aha" class="gambar-pet">
+          <img src="../../asset/pets/Aha.png" alt="Aha" class="gambar-pet">
           <div class="info-pet">
             <h2>Aha!!</h2>
             <span>Ability: Certified Banger</span>
@@ -105,7 +165,59 @@ if (isset($_POST['pet'])) {
     </div>
   </div>
 
-  <?php include 'components/landing/footer.php'; ?>
+  <?php if ($popup != "") { ?>
+    <div class="reward-overlay">
+      <div class="reward-box">
+        <h2 class="reward-judul">REWARD SYSTEM</h2>
 
+        <?php if ($hasil != "") { ?>
+          <p class="reward-hasil"><?php echo $hasil; ?></p>
+        <?php } ?>
+
+        <?php if ($popup == "reward") { ?>
+
+          <div class="reward-daftar">
+            <?php for ($i = 1; $i <= 3; $i++) { ?>
+              <?php $sudah = in_array($pet_aktif . $i, $_SESSION['klaim']); ?>
+
+              <form method="POST" class="reward-kartu <?php echo $pet_aktif; ?>">
+                <div class="reward-atas">
+                  <img src="../../asset/pets/<?php echo $gambar_pet; ?>" alt="<?php echo $nama_pet; ?>" class="reward-gambar">
+                  <span class="reward-nama"><?php echo $nama_pet; ?> Reward</span>
+                </div>
+                <div class="reward-bawah">
+                  <input type="hidden" name="pet_klaim" value="<?php echo $pet_aktif; ?>">
+                  <button type="submit" name="klaim" value="<?php echo $i; ?>" class="reward-tombol" <?php if ($sudah) { echo "disabled"; } ?>>
+                    <?php if ($sudah) { echo "Claimed"; } else { echo "Claim"; } ?>
+                  </button>
+                </div>
+              </form>
+
+            <?php } ?>
+          </div>
+
+        <?php } elseif ($popup == "terkunci") { ?>
+
+          <div class="reward-selesai">
+            <p>Press Get more on a film page first</p>
+            <a href="genre_film.php" class="reward-kembali">Go Back</a>
+          </div>
+
+        <?php } else { ?>
+
+          <div class="reward-selesai">
+            <p>The reward has been claimed</p>
+            <a href="genre_film.php" class="reward-kembali">Go Back</a>
+          </div>
+
+        <?php } ?>
+
+      </div>
+    </div>
+  <?php } ?>
+
+  <?php require_once __DIR__ . '/../../components/landing/footer.php'; ?>
+
+  <script src="../../script/script.js"></script>
 </body>
 </html>

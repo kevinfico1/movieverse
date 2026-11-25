@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/film_admin_repository.php';
 
 if (!function_exists('e')) {
     function e($teks) {
@@ -7,8 +6,9 @@ if (!function_exists('e')) {
     }
 }
 
+// Ambil SEMUA film (kuncinya adalah id film)
 function ambil_semua_film() {
-    $film = [
+    return [
 
         1 => [
             'judul'     => 'Vision Quest',
@@ -87,6 +87,7 @@ function ambil_semua_film() {
             'genre'  => ['Action', 'Crime', 'Drama', 'Thriller'],
         ],
 
+        // ----- Film untuk halaman Broadcast Schedule -----
         11 => [
             'judul'  => 'Ted',
             'warna'  => 135,
@@ -155,8 +156,6 @@ function ambil_semua_film() {
         ],
 
     ];
-
-    return $film + ambil_film_admin();
 }
 
 function ambil_film_by_id($id) {

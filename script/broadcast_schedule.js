@@ -1,3 +1,4 @@
+// Broadcast Schedule: ganti judul besar & daftar film sesuai hari yang dipilih
 const bsTitle = document.getElementById("bsTitle");
 const bsTabs = Array.from(document.querySelectorAll(".bs-day"));
 

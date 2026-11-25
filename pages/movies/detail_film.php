@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+// Kunci yang dimiliki (kalau belum ada, mulai dari 0)
+if (!isset($_SESSION['kunci'])) {
+    $_SESSION['kunci'] = 0;
+}
+
 require_once __DIR__ . '/../../repositories/detail_film_repository.php';
 
 if (!function_exists('e')) {
@@ -10,6 +17,7 @@ if (!function_exists('e')) {
 $film_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
 $film    = ambil_film_by_id($film_id);
 
+// Data sesuai desain gambar
 $judul     = !empty($film['judul']) ? $film['judul'] : 'Vision Quest';
 $rating    = !empty($film['rating']) ? $film['rating'] : '8.3';
 $deskripsi = !empty($film['deskripsi']) ? $film['deskripsi'] : 'Serial ini akan berfokus pada karakter White Vision (Paul Bettany) yang diperkenalkan dalam WandaVision. Plotnya mengikuti perjalanan sintozoid tersebut saat ia berusaha memulihkan ingatannya yang hilang, mengeksplorasi kembali identitas dan keberadaannya, serta mencari tujuan baru dalam hidupnya setelah kehilangan keterikatan emosionalnya di Westview.';
@@ -61,8 +69,11 @@ $serupa  = ambil_serupa();
 
         <aside class="key-card">
           <div class="key-left">
-            <span class="key-text">1 Key</span>
-            <button class="btn-small">Get more</button>
+            <span class="key-text"><?= (int) $_SESSION['kunci'] ?> Key</span>
+            <form action="/pages/movies/genre_film.php" method="GET">
+              <input type="hidden" name="get_more" value="1">
+              <button type="submit" class="btn-small">Get more</button>
+            </form>
           </div>
           <div class="key-right">
             <img class="key-img" src="/asset/photos/key.png" alt="Key" onerror="this.style.display='none'">
@@ -103,7 +114,7 @@ $serupa  = ambil_serupa();
     </div>
   </main>
 
-  <?php include __DIR__ . '/../../components/landing/footer.php'; ?>
+  <?php require_once __DIR__ . '/../../components/landing/footer.php'; ?>
 
   <script src="/script/script.js"></script>
 </body>
