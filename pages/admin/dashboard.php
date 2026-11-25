@@ -1,146 +1,149 @@
 <?php
 session_start();
 
+require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../repositories/detail_film_repository.php';
-require_once __DIR__ . '/../../repositories/film_admin_repository.php';
 
-if (!isset($_SESSION['film_admin'])) {
-  $_SESSION['film_admin'] = [];
-}
-if (!isset($_SESSION['genre_admin'])) {
-  $_SESSION['genre_admin'] = ['Action', 'Comedy', 'Adventure', 'Crime', 'Thriller', 'Mystery', 'Drama', 'Fantasy', 'Documentary'];
-}
+try {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $aksi = $_POST['aksi'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $aksi = $_POST['aksi'] ?? '';
+    if ($aksi === 'tambah') {
+      $judul = mb_substr(trim($_POST['judul'] ?? ''), 0, 150);
+      $tahun = trim($_POST['tahun'] ?? '');
 
-  if ($aksi === 'tambah') {
-    $judul = trim($_POST['judul'] ?? '');
-    $tanggal = trim($_POST['tanggal'] ?? '');
-
-    if ($tanggal === '') {
-      $tanggal = date('d/m/Y');
-    }
-
-    if ($judul === '') {
-      $_SESSION['pesan'] = ['teks' => 'Title tidak boleh kosong.', 'galat' => true];
-    } elseif (!preg_match('#^\d{1,2}/\d{1,2}/\d{4}$#', $tanggal)) {
-      $_SESSION['pesan'] = ['teks' => 'Format tanggal harus dd/mm/yyyy.', 'galat' => true];
-    } else {
-      $genre_film = [];
-      foreach (explode(',', $_POST['genre'] ?? '') as $g) {
-        $g = trim($g);
-        if ($g !== '' && count($genre_film) < 4) {
-          $genre_film[] = $g;
-        }
+      if ($tahun === '') {
+        $tahun = date('Y');
       }
 
-      $status = 'Publish';
-      if (strtolower(trim($_POST['status'] ?? '')) === 'draft') {
-        $status = 'Draft';
-      }
+      $tahun_benar = ctype_digit($tahun) && strlen($tahun) === 4 && $tahun >= 1901 && $tahun <= 2155;
 
-      $poster = '';
-      if (isset($_FILES['poster']) && $_FILES['poster']['error'] === 0) {
-        $ekstensi = strtolower(pathinfo($_FILES['poster']['name'], PATHINFO_EXTENSION));
-        $boleh = ['jpg', 'jpeg', 'png', 'webp'];
-
-        if (in_array($ekstensi, $boleh) && getimagesize($_FILES['poster']['tmp_name']) !== false) {
-          $nama_file = time() . '.' . $ekstensi;
-          move_uploaded_file($_FILES['poster']['tmp_name'], __DIR__ . '/../../asset/uploads/' . $nama_file);
-          $poster = '/asset/uploads/' . $nama_file;
-        }
-      }
-
-      $id_baru = 1001;
-      foreach ($_SESSION['film_admin'] as $f) {
-        if ($f['id'] >= $id_baru) {
-          $id_baru = $f['id'] + 1;
-        }
-      }
-
-      $_SESSION['film_admin'][] = [
-        'id'        => $id_baru,
-        'judul'     => $judul,
-        'genre'     => $genre_film,
-        'status'    => $status,
-        'tanggal'   => $tanggal,
-        'poster'    => $poster,
-        'deskripsi' => trim($_POST['deskripsi'] ?? ''),
-      ];
-
-      if ($status === 'Publish') {
-        $_SESSION['pesan'] = ['teks' => 'Film tersimpan dan sudah masuk Daftar Film.', 'galat' => false];
+      if ($judul === '') {
+        $_SESSION['pesan'] = ['teks' => 'Title tidak boleh kosong.', 'galat' => true];
+      } elseif (!$tahun_benar) {
+        $_SESSION['pesan'] = ['teks' => 'Year harus 4 angka, contoh 2026.', 'galat' => true];
       } else {
-        $_SESSION['pesan'] = ['teks' => 'Film tersimpan sebagai draft.', 'galat' => false];
-      }
-    }
-  }
+        $genre_film = [];
+        foreach ((array)($_POST['genre'] ?? []) as $g) {
+          $g = mb_substr(trim($g), 0, 50);
+          if ($g !== '' && count($genre_film) < 4) {
+            $genre_film[] = ucfirst($g);
+          }
+        }
 
-  if ($aksi === 'status') {
-    foreach ($_SESSION['film_admin'] as $i => $f) {
-      if ($f['id'] == $_POST['id']) {
-        if ($f['status'] === 'Publish') {
-          $_SESSION['film_admin'][$i]['status'] = 'Draft';
+        $status = 'published';
+        if (strtolower(trim($_POST['status'] ?? '')) === 'draft') {
+          $status = 'archived';
+        }
+
+        $query = $pdo->prepare("INSERT INTO movies (title, type, release_year, synopsis, status) VALUES (?, 'series', ?, ?, ?)");
+        $query->execute([$judul, $tahun, trim($_POST['deskripsi'] ?? ''), $status]);
+        $id_baru = $pdo->lastInsertId();
+
+        foreach ($genre_film as $nama) {
+          $query = $pdo->prepare('INSERT IGNORE INTO categories (name) VALUES (?)');
+          $query->execute([$nama]);
+
+          $query = $pdo->prepare('SELECT id FROM categories WHERE name = ?');
+          $query->execute([$nama]);
+          $id_kategori = $query->fetchColumn();
+
+          $query = $pdo->prepare('INSERT IGNORE INTO movie_categories (movie_id, category_id) VALUES (?, ?)');
+          $query->execute([$id_baru, $id_kategori]);
+        }
+
+        if (isset($_FILES['poster']) && $_FILES['poster']['error'] === 0) {
+          $ekstensi = strtolower(pathinfo($_FILES['poster']['name'], PATHINFO_EXTENSION));
+          $boleh = ['jpg', 'jpeg', 'png', 'webp'];
+
+          if (in_array($ekstensi, $boleh) && getimagesize($_FILES['poster']['tmp_name']) !== false) {
+            move_uploaded_file($_FILES['poster']['tmp_name'], __DIR__ . '/../../asset/uploads/film_' . $id_baru . '.' . $ekstensi);
+          }
+        }
+
+        if ($status === 'published') {
+          $_SESSION['pesan'] = ['teks' => 'Film tersimpan dan sudah masuk Daftar Film.', 'galat' => false];
         } else {
-          $_SESSION['film_admin'][$i]['status'] = 'Publish';
+          $_SESSION['pesan'] = ['teks' => 'Film tersimpan sebagai draft.', 'galat' => false];
         }
       }
     }
-  }
 
-  if ($aksi === 'hapus') {
-    foreach ($_SESSION['film_admin'] as $i => $f) {
-      if ($f['id'] == $_POST['id']) {
-        unset($_SESSION['film_admin'][$i]);
+    if ($aksi === 'status') {
+      $query = $pdo->prepare("UPDATE movies SET status = IF(status = 'published', 'archived', 'published') WHERE id = ?");
+      $query->execute([(int)($_POST['id'] ?? 0)]);
+    }
+
+    if ($aksi === 'hapus') {
+      $id = (int)($_POST['id'] ?? 0);
+
+      foreach (glob(__DIR__ . '/../../asset/uploads/film_' . $id . '.*') as $file) {
+        unlink($file);
+      }
+
+      $query = $pdo->prepare('DELETE FROM movies WHERE id = ?');
+      $query->execute([$id]);
+    }
+
+    if ($aksi === 'genre') {
+      $genre_baru = mb_substr(trim($_POST['genre_baru'] ?? ''), 0, 50);
+
+      if ($genre_baru !== '') {
+        $query = $pdo->prepare('INSERT IGNORE INTO categories (name) VALUES (?)');
+        $query->execute([ucfirst($genre_baru)]);
       }
     }
-    $_SESSION['film_admin'] = array_values($_SESSION['film_admin']);
+
+    header('Location: /pages/admin/dashboard.php');
+    exit;
   }
 
-  if ($aksi === 'genre') {
-    $genre_baru = trim($_POST['genre_baru'] ?? '');
-    $genre_kecil = array_map('strtolower', $_SESSION['genre_admin']);
+  $genre_awal = $pdo->query('SELECT name FROM categories ORDER BY name')->fetchAll(PDO::FETCH_COLUMN);
 
-    if ($genre_baru !== '' && !in_array(strtolower($genre_baru), $genre_kecil)) {
-      $_SESSION['genre_admin'][] = ucfirst($genre_baru);
-    }
-  }
+  $film_terbaru = $pdo->query("
+    SELECT m.id, m.title, m.status, m.release_year, GROUP_CONCAT(c.name SEPARATOR ',') AS genre
+    FROM movies m
+    LEFT JOIN movie_categories mc ON mc.movie_id = m.id
+    LEFT JOIN categories c ON c.id = mc.category_id
+    GROUP BY m.id
+    ORDER BY m.id DESC
+    LIMIT 4
+  ")->fetchAll();
 
-  header('Location: /pages/admin/dashboard.php');
-  exit;
+  $total_series = $pdo->query("SELECT COUNT(*) FROM movies WHERE type = 'series'")->fetchColumn();
+  $total_users = $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
+} catch (PDOException $error) {
+  die('Database error: ' . $error->getMessage());
 }
 
 $pesan = $_SESSION['pesan'] ?? null;
 unset($_SESSION['pesan']);
 
-$semua = ambil_semua_film();
-$genre_awal = $_SESSION['genre_admin'];
+$poster_bawaan = [];
+foreach (ambil_semua_film() as $f) {
+  $poster_bawaan[$f['judul']] = $f['poster'] ?? '';
+}
 
 $baris = [];
-foreach (array_reverse($_SESSION['film_admin']) as $f) {
-  $f['milik_admin'] = true;
-  $baris[] = $f;
-}
-foreach (array_reverse($semua, true) as $id => $f) {
-  if ($id > 1000 || empty($f['genre'])) {
-    continue;
+foreach ($film_terbaru as $f) {
+  $poster = cari_poster($f['id']);
+  if ($poster === '') {
+    $poster = $poster_bawaan[$f['title']] ?? '';
   }
+
   $baris[] = [
-    'id'          => $id,
-    'judul'       => $f['judul'],
-    'genre'       => $f['genre'],
-    'status'      => 'Publish',
-    'tanggal'     => $f['tahun'],
-    'poster'      => $f['poster'] ?? '',
-    'milik_admin' => false,
+    'id'      => $f['id'],
+    'judul'   => $f['title'],
+    'genre'   => array_values(array_filter(explode(',', (string) $f['genre']))),
+    'status'  => $f['status'] === 'published' ? 'Publish' : 'Draft',
+    'tanggal' => $f['release_year'],
+    'poster'  => $poster,
   ];
 }
-$baris = array_slice($baris, 0, 4);
 
 $stats = [
-  ['icon' => 'fa-regular fa-rectangle-list', 'label' => 'Total Series', 'nilai' => count($semua)],
-  ['icon' => 'fa-solid fa-users',            'label' => 'Total Users',  'nilai' => 500],
+  ['icon' => 'fa-regular fa-rectangle-list', 'label' => 'Total Series', 'nilai' => $total_series],
+  ['icon' => 'fa-solid fa-users',            'label' => 'Total Users',  'nilai' => $total_users],
   ['icon' => 'fa-solid fa-key',              'label' => 'Total Keys',   'nilai' => (int)($_SESSION['kunci'] ?? 0)],
   ['icon' => 'fa-solid fa-paw',              'label' => 'Total Pets',   'nilai' => 2],
 ];
@@ -207,26 +210,20 @@ $stats = [
                   </div>
 
                   <div class="adm-status">
-                    <?php if ($k['milik_admin']): ?>
-                      <form method="post" class="form-satu">
-                        <input type="hidden" name="aksi" value="status">
-                        <input type="hidden" name="id" value="<?= (int)$k['id'] ?>">
-                        <button type="submit" class="badge <?= $draft ? 'draft' : 'publish' ?>"><i></i><span><?= e(strtoupper($k['status'])) ?></span></button>
-                      </form>
-                    <?php else: ?>
-                      <span class="badge publish"><i></i><span>PUBLISH</span></span>
-                    <?php endif; ?>
+                    <form method="post" class="form-satu">
+                      <input type="hidden" name="aksi" value="status">
+                      <input type="hidden" name="id" value="<?= (int)$k['id'] ?>">
+                      <button type="submit" class="badge <?= $draft ? 'draft' : 'publish' ?>"><i></i><span><?= e(strtoupper($k['status'])) ?></span></button>
+                    </form>
                     <span class="tgl"><?= e($k['tanggal']) ?></span>
                   </div>
 
                   <div class="adm-aksi">
-                    <?php if ($k['milik_admin']): ?>
-                      <form method="post" class="form-satu" onsubmit="return confirm('Hapus film ini?')">
-                        <input type="hidden" name="aksi" value="hapus">
-                        <input type="hidden" name="id" value="<?= (int)$k['id'] ?>">
-                        <button type="submit" class="btn-hapus"><i class="fa-regular fa-trash-can"></i></button>
-                      </form>
-                    <?php endif; ?>
+                    <form method="post" class="form-satu" onsubmit="return confirm('Hapus film ini?')">
+                      <input type="hidden" name="aksi" value="hapus">
+                      <input type="hidden" name="id" value="<?= (int)$k['id'] ?>">
+                      <button type="submit" class="btn-hapus"><i class="fa-regular fa-trash-can"></i></button>
+                    </form>
                   </div>
                 </div>
               <?php endforeach; ?>
@@ -257,18 +254,20 @@ $stats = [
             <label for="fTitle">Title</label>
             <input type="text" id="fTitle" name="judul" placeholder="Judul film" required>
 
-            <label for="fDate">Date</label>
-            <input type="text" id="fDate" name="tanggal" placeholder="dd/mm/yyyy" maxlength="10">
+            <label for="fYear">Year</label>
+            <input type="text" id="fYear" name="tahun" placeholder="2026" maxlength="4">
 
-            <div class="adm-two">
-              <div>
-                <label for="fGenre">Genre</label>
-                <input type="text" id="fGenre" name="genre" placeholder="Action, Crime (maks. 4)">
-              </div>
-              <div>
-                <label for="fStatus">Status</label>
-                <input type="text" id="fStatus" name="status" placeholder="Publish / Draft">
-              </div>
+            <span class="adm-label">Genre (pilih maks. 4)</span>
+            <div class="pilih-box">
+              <?php foreach ($genre_awal as $g): ?>
+                <label class="pilih"><input type="checkbox" name="genre[]" value="<?= e($g) ?>"><span><?= e($g) ?></span></label>
+              <?php endforeach; ?>
+            </div>
+
+            <span class="adm-label">Status</span>
+            <div class="pilih-box">
+              <label class="pilih"><input type="radio" name="status" value="Publish" checked><span>Publish</span></label>
+              <label class="pilih"><input type="radio" name="status" value="Draft"><span>Draft</span></label>
             </div>
 
             <label for="fDesc">Description</label>
