@@ -25,7 +25,6 @@ try {
         $tanggal = date('d/m/Y');
       }
 
-      // Tanggal boleh ditulis tanpa nol di depan, contoh: 15/2/2010 atau 05/02/2010
       $bagian = explode('/', $tanggal);
 
       $tanggal_benar = count($bagian) === 3
@@ -117,7 +116,6 @@ try {
         unlink($file);
       }
 
-      // Hapus dulu data di tabel lain yang terhubung ke film ini (foreign key), baru filmnya.
       $query = $pdo->prepare('SELECT TABLE_NAME, COLUMN_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND REFERENCED_TABLE_NAME = ? AND REFERENCED_COLUMN_NAME = ?');
       $query->execute(['movies', 'id']);
       $relasi = $query->fetchAll();

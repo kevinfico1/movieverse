@@ -29,7 +29,6 @@ function ambil_trending_home() {
     ];
 }
 
-// Bagian "Series"
 function ambil_series_home() {
     return [
         ['id' => 1, 'judul' => 'Vision Quest', 'rating' => '8.3', 'tahun' => '2026', 'poster' => 'https://i.pinimg.com/736x/9d/57/7e/9d577e728888b03995b0010d48204be3.jpg'],

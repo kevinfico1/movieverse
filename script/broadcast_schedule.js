@@ -1,4 +1,3 @@
-// Broadcast Schedule: ganti judul besar & daftar film sesuai hari yang dipilih
 const bsTitle = document.getElementById("bsTitle");
 const bsTabs = Array.from(document.querySelectorAll(".bs-day"));
 
@@ -21,7 +20,6 @@ function pilihHari(hari, fokus) {
 bsTabs.forEach((tab, i) => {
   tab.addEventListener("click", () => pilihHari(tab.dataset.day, false));
 
-  // Navigasi keyboard: panah kiri/kanan, Home, End
   tab.addEventListener("keydown", (e) => {
     let tujuan = null;
     if (e.key === "ArrowRight") tujuan = (i + 1) % bsTabs.length;
