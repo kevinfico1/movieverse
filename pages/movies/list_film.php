@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../repositories/list_film_repository.php';
 
 $genre       = ambil_genre_list();
@@ -84,7 +85,6 @@ $daftar_film = ambil_daftar_film_list();
 
   <script src="/script/script.js"></script>
   <script>
-    // Filter kartu berdasarkan judul saat mengetik
     const cari = document.getElementById('cariFilm');
     const kartu = document.querySelectorAll('#daftarFilm .lf-card');
     const kosong = document.getElementById('kosong');

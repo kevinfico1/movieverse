@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once __DIR__ . '/../../repositories/broadcast_schedule_repository.php';
 
