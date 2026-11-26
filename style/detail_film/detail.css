@@ -39,7 +39,8 @@
 
 .detail-poster {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  align-self: center;
+  background-color: #0f111b;
   border: 2px solid #8278f0;
   border-radius: 12px;
   overflow: hidden;
@@ -47,9 +48,11 @@
 }
 
 .detail-poster img {
+  display: block;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
 }
 
 .detail-info {
@@ -311,7 +314,7 @@
 .similar-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .similar-info h4 {
