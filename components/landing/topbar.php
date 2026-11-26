@@ -4,7 +4,6 @@
       <img src="/asset/photos/planarcadia.png" alt="Logo" class="logo-img" onerror="this.style.display='none'">
       Planarcadia
     </a>
-    <!-- Tombol Tanda Panah Ke Bawah -->
     <button class="dropdown-btn" id="dropdownToggle">
       <i class="fa-solid fa-chevron-down"></i>
     </button>
@@ -19,7 +18,11 @@
   </div>
 
   <div class="topbar-right">
-    <a href="/pages/auth/login.php" class="topbar-btn login">Login</a>
-    <a href="/pages/auth/register.php" class="topbar-btn register">Register</a>
+    <?php if (isset($_SESSION['user_id'])) { ?>
+      <a href="/pages/auth/login.php?logout=1" class="topbar-btn login">Log out</a>
+    <?php } else { ?>
+      <a href="/pages/auth/login.php" class="topbar-btn login">Login</a>
+      <a href="/pages/auth/register.php" class="topbar-btn register">Register</a>
+    <?php } ?>
   </div>
 </header>

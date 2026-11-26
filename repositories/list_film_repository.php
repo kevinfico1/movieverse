@@ -25,5 +25,19 @@ function ambil_daftar_film_list() {
             $hasil[] = $film;
         }
     }
+
+    // Tambahkan film berstatus published yang dibuat melalui Admin Dashboard.
+    foreach (ambil_semua_film() as $id => $film) {
+        if ((int) $id > 22) {
+            $film['id'] = (int) $id;
+            $film['rating'] = $film['rating'] ?? '—';
+            $film['tahun'] = $film['tahun'] ?? '';
+            $film['eps'] = $film['eps'] ?? 1;
+            $film['warna'] = $film['warna'] ?? 245;
+            $film['genre'] = $film['genre'] ?? [];
+            $hasil[] = $film;
+        }
+    }
+
     return $hasil;
 }

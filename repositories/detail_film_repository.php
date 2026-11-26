@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/film_admin_repository.php';
+
 if (!function_exists('e')) {
     function e($teks) {
         return htmlspecialchars($teks ?? '', ENT_QUOTES, 'UTF-8');
@@ -8,7 +10,7 @@ if (!function_exists('e')) {
 
 // Ambil SEMUA film (kuncinya adalah id film)
 function ambil_semua_film() {
-    return [
+    $film_awal = [
 
         1 => [
             'judul'     => 'Vision Quest',
@@ -156,6 +158,15 @@ function ambil_semua_film() {
         ],
 
     ];
+
+    // Film baru dari Admin memakai ID database di atas ID film bawaan.
+    // Union menjaga data film bawaan agar tidak tertimpa.
+    try {
+        $film_admin = ambil_film_admin();
+        return $film_awal + $film_admin;
+    } catch (Throwable $error) {
+        return $film_awal;
+    }
 }
 
 function ambil_film_by_id($id) {

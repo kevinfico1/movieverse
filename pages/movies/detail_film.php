@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Kunci yang dimiliki (kalau belum ada, mulai dari 0)
 if (!isset($_SESSION['kunci'])) {
     $_SESSION['kunci'] = 0;
 }
@@ -17,13 +16,10 @@ if (!function_exists('e')) {
 $film_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
 $film    = ambil_film_by_id($film_id);
 
-// Data sesuai desain gambar
 $judul     = !empty($film['judul']) ? $film['judul'] : 'Vision Quest';
 $rating    = !empty($film['rating']) ? $film['rating'] : '8.3';
 $deskripsi = !empty($film['deskripsi']) ? $film['deskripsi'] : 'Serial ini akan berfokus pada karakter White Vision (Paul Bettany) yang diperkenalkan dalam WandaVision. Plotnya mengikuti perjalanan sintozoid tersebut saat ia berusaha memulihkan ingatannya yang hilang, mengeksplorasi kembali identitas dan keberadaannya, serta mencari tujuan baru dalam hidupnya setelah kehilangan keterikatan emosionalnya di Westview.';
 $poster    = !empty($film['poster']) ? $film['poster'] : 'https://i.pinimg.com/736x/9d/57/7e/9d577e728888b03995b0010d48204be3.jpg';
-
-$poster_css = str_replace(["'", '"', '\\', "\n", "\r"], ['%27', '%22', '%5C', '', ''], $poster);
 
 $episode = ambil_episode();
 $serupa  = ambil_serupa();
@@ -47,7 +43,7 @@ $serupa  = ambil_serupa();
   <main class="detail-wrap">
     <div class="detail-box">
 
-      <section class="detail-top" style="--poster: url('<?= e($poster_css) ?>')">
+      <section class="detail-top">
         <div class="detail-poster">
           <img src="<?= e($poster) ?>" alt="<?= e($judul) ?>"
                onerror="this.onerror=null; this.src='https://via.placeholder.com/180x270';">
