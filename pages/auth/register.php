@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-            $stmt = $pdo->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO users (email, password_hash) VALUES (?, ?)");
             $stmt->execute([$email, $hash]);
 
             header('Location: login.php?daftar=berhasil');

@@ -1,6 +1,16 @@
 <?php
 session_start();
 
+// Hanya admin yang boleh membuka panel ini
+if (!isset($_SESSION['user_id'])) {
+  header('Location: /pages/auth/login.php');
+  exit;
+}
+if (($_SESSION['user_role'] ?? '') !== 'admin') {
+  header('Location: /index.php');
+  exit;
+}
+
 require_once __DIR__ . '/../../config/database.php';
 require_once __DIR__ . '/../../repositories/detail_film_repository.php';
 

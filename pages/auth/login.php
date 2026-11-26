@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require_once __DIR__ . '/../../config/database.php';
@@ -46,15 +45,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (count($errors) == 0) {
-        $stmt = $pdo->prepare("SELECT id, email, password FROM users WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT id, email, password_hash, role FROM users WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($pass, $user['password'])) {
+        if ($user && password_verify($pass, $user['password_hash'])) {
 
             session_regenerate_id(true);
             $_SESSION['user_id']    = $user['id'];
             $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_role']  = $user['role'];
             header('Location: ../../index.php');
             exit;
         } else {
