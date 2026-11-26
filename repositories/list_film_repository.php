@@ -26,7 +26,6 @@ function ambil_daftar_film_list() {
         }
     }
 
-    // Tambahkan film berstatus published yang dibuat melalui Admin Dashboard.
     foreach (ambil_semua_film() as $id => $film) {
         if ((int) $id > 22) {
             $film['id'] = (int) $id;

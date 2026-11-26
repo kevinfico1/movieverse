@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Hanya admin yang boleh membuka panel ini
 if (!isset($_SESSION['user_id'])) {
   header('Location: /pages/auth/login.php');
   exit;
@@ -26,17 +25,21 @@ try {
         $tanggal = date('d/m/Y');
       }
 
-      $hari = (int) substr($tanggal, 0, 2);
-      $bulan = (int) substr($tanggal, 3, 2);
-      $tahun = (int) substr($tanggal, 6, 4);
+      // Tanggal boleh ditulis tanpa nol di depan, contoh: 15/2/2010 atau 05/02/2010
+      $bagian = explode('/', $tanggal);
 
-      $tanggal_benar = strlen($tanggal) === 10 && $tanggal[2] === '/' && $tanggal[5] === '/'
-        && checkdate($bulan, $hari, $tahun) && $tahun >= 1901 && $tahun <= 2155;
+      $tanggal_benar = count($bagian) === 3
+        && ctype_digit($bagian[0]) && ctype_digit($bagian[1]) && ctype_digit($bagian[2])
+        && strlen($bagian[2]) === 4
+        && checkdate((int) $bagian[1], (int) $bagian[0], (int) $bagian[2])
+        && (int) $bagian[2] >= 1901 && (int) $bagian[2] <= 2155;
+
+      $tahun = $tanggal_benar ? (int) $bagian[2] : 0;
 
       if ($judul === '') {
         $_SESSION['pesan'] = ['teks' => 'Title tidak boleh kosong.', 'galat' => true];
       } elseif (!$tanggal_benar) {
-        $_SESSION['pesan'] = ['teks' => 'Format tanggal harus dd/mm/yyyy.', 'galat' => true];
+        $_SESSION['pesan'] = ['teks' => 'Format tanggal harus dd/mm/yyyy, contoh 15/2/2010.', 'galat' => true];
       } else {
         $genre_kiriman = $_POST['genre'] ?? [];
         if (!is_array($genre_kiriman)) {
@@ -56,9 +59,20 @@ try {
           $status = 'archived';
         }
 
-        $query = $pdo->prepare("INSERT INTO movies (title, type, release_year, synopsis, status) VALUES (?, 'series', ?, ?, ?)");
-        $query->execute([$judul, $tahun, trim($_POST['deskripsi'] ?? ''), $status]);
-        $id_baru = $pdo->lastInsertId();
+        $pdo->beginTransaction();
+
+        // Pastikan ID film baru selalu di atas ID film bawaan, supaya tampil di Daftar Film.
+        $id_terbesar = (int) $pdo->query('SELECT COALESCE(MAX(id), 0) FROM movies')->fetchColumn();
+
+        if ($id_terbesar < ID_FILM_AWAL) {
+          $query = $pdo->prepare("INSERT INTO movies (id, title, type, release_year, synopsis, status) VALUES (?, ?, 'series', ?, ?, ?)");
+          $query->execute([ID_FILM_AWAL + 1, $judul, $tahun, trim($_POST['deskripsi'] ?? ''), $status]);
+          $id_baru = ID_FILM_AWAL + 1;
+        } else {
+          $query = $pdo->prepare("INSERT INTO movies (title, type, release_year, synopsis, status) VALUES (?, 'series', ?, ?, ?)");
+          $query->execute([$judul, $tahun, trim($_POST['deskripsi'] ?? ''), $status]);
+          $id_baru = (int) $pdo->lastInsertId();
+        }
 
         foreach ($genre_film as $nama) {
           $query = $pdo->prepare('INSERT IGNORE INTO categories (name) VALUES (?)');
@@ -71,6 +85,8 @@ try {
           $query = $pdo->prepare('INSERT IGNORE INTO movie_categories (movie_id, category_id) VALUES (?, ?)');
           $query->execute([$id_baru, $id_kategori]);
         }
+
+        $pdo->commit();
 
         if (isset($_FILES['poster']) && $_FILES['poster']['error'] === 0) {
           $ekstensi = strtolower(pathinfo($_FILES['poster']['name'], PATHINFO_EXTENSION));
@@ -101,8 +117,22 @@ try {
         unlink($file);
       }
 
+      // Hapus dulu data di tabel lain yang terhubung ke film ini (foreign key), baru filmnya.
+      $query = $pdo->prepare('SELECT TABLE_NAME, COLUMN_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = DATABASE() AND REFERENCED_TABLE_NAME = ? AND REFERENCED_COLUMN_NAME = ?');
+      $query->execute(['movies', 'id']);
+      $relasi = $query->fetchAll();
+
+      $pdo->beginTransaction();
+
+      foreach ($relasi as $r) {
+        $query = $pdo->prepare('DELETE FROM `' . str_replace('`', '', $r['TABLE_NAME']) . '` WHERE `' . str_replace('`', '', $r['COLUMN_NAME']) . '` = ?');
+        $query->execute([$id]);
+      }
+
       $query = $pdo->prepare('DELETE FROM movies WHERE id = ?');
       $query->execute([$id]);
+
+      $pdo->commit();
     }
 
     if ($aksi === 'genre') {
@@ -131,6 +161,9 @@ try {
   $total_series = $pdo->query("SELECT COUNT(*) FROM movies WHERE type = 'series'")->fetchColumn();
   $total_users = $pdo->query('SELECT COUNT(*) FROM users')->fetchColumn();
 } catch (PDOException $error) {
+  if ($pdo->inTransaction()) {
+    $pdo->rollBack();
+  }
   die('Database error: ' . $error->getMessage());
 }
 

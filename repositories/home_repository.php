@@ -6,7 +6,6 @@ if (!function_exists('e')) {
     }
 }
 
-// Banner besar di atas halaman
 function ambil_hero_home() {
     return [
         'studio'    => 'A FILM BY CHRISTOPHER NOLAN',
@@ -20,7 +19,6 @@ function ambil_hero_home() {
     ];
 }
 
-// Bagian "Trending Now"
 function ambil_trending_home() {
     return [
         ['id' => 2, 'judul' => 'Lanterns',          'rating' => '8.3', 'tahun' => '2026', 'poster' => 'https://i.pinimg.com/736x/c2/77/fb/c277fb23118b1431d2bb75e13ffceed9.jpg'],

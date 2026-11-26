@@ -2,7 +2,6 @@
   display: none !important;
 }
 
-/* Area utama: pita ungu di kiri-kanan, panel gelap di tengah */
 .bs-stage {
   flex: 1;
   margin-top: 80px;

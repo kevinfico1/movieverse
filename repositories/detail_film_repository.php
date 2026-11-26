@@ -8,7 +8,6 @@ if (!function_exists('e')) {
     }
 }
 
-// Ambil SEMUA film (kuncinya adalah id film)
 function ambil_semua_film() {
     $film_awal = [
 
@@ -159,8 +158,6 @@ function ambil_semua_film() {
 
     ];
 
-    // Film baru dari Admin memakai ID database di atas ID film bawaan.
-    // Union menjaga data film bawaan agar tidak tertimpa.
     try {
         $film_admin = ambil_film_admin();
         return $film_awal + $film_admin;

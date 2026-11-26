@@ -4,7 +4,6 @@ session_start();
 require_once __DIR__ . '/../../repositories/genre.php';
 require_once __DIR__ . '/../../config/database.php';
 
-// Genre bawaan tetap dipertahankan; genre tambahan dari Admin ikut ditampilkan.
 try {
     $genre_database = $pdo->query('SELECT name FROM categories ORDER BY name')->fetchAll(PDO::FETCH_COLUMN);
     $genre_terdaftar = array_map('strtolower', array_column($genre, 1));
@@ -16,7 +15,7 @@ try {
         }
     }
 } catch (PDOException $error) {
-    // Genre bawaan tetap dapat digunakan jika tabel kategori belum tersedia.
+
 }
 
 $max_kunci = 5;
@@ -144,12 +143,11 @@ if ($pet_aktif == "aha") {
     <div class="area-genre">
       <div class="kolom-genre">
         <?php foreach ($genre as $g) { ?>
-          <a href="../../index.php?genre=<?php echo $g[0]; ?>"
-             class="kartu-genre"
-             style="background-image: url('../../asset/genre/<?php echo $g[0]; ?>.jpg'), <?php echo $g[3]; ?>;">
+          <div class="kartu-genre"
+               style="background-image: url('../../asset/genre/<?php echo $g[0]; ?>.jpg'), <?php echo $g[3]; ?>;">
             <span class="ikon-genre"><i class="<?php echo $g[2]; ?>"></i></span>
             <span class="nama-genre"><?php echo $g[1]; ?></span>
-          </a>
+          </div>
         <?php } ?>
       </div>
     </div>
