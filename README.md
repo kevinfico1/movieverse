@@ -39,7 +39,7 @@ Fitur untuk admin:
 - HTML, CSS, dan JavaScript
 - Font Awesome untuk ikon
 - Google Fonts untuk jenis huruf
-- XAMPP, Laragon, atau PHP built-in server untuk menjalankan website
+- Laragon atau PHP built-in server untuk menjalankan website
 
 ## Arsitektur Aplikasi
 
@@ -71,7 +71,7 @@ Yang perlu disiapkan:
 - PHP versi 8 atau lebih baru
 - MySQL atau MariaDB
 - Git
-- XAMPP atau Laragon (boleh dipakai, tidak wajib)
+- Laragon (boleh dipakai, tidak wajib)
 
 Langkah-langkahnya:
 
@@ -81,7 +81,7 @@ Langkah-langkahnya:
 4. Kalau mau, jalankan juga file `database/fill_empty_genres.sql` untuk melengkapi genre beberapa film.
 5. Buka file `config/database.php`, lalu cocokkan isinya dengan database kamu. Isinya adalah host, nama database, username, dan password. Biasanya host adalah localhost, username adalah root, dan password kosong.
 6. Pastikan folder `asset/uploads` bisa ditulis, karena dipakai untuk menyimpan poster dari admin.
-7. Jalankan website dari folder project dengan perintah `php -S localhost:3000`, lalu buka `http://localhost:3000` di browser. Kalau memakai XAMPP atau Laragon, atur document root ke folder project ini.
+7. Jalankan website dari folder project dengan perintah `php -S localhost:3000`, lalu buka `http://localhost:3000` di browser. Kalau memakai Laragon, atur document root ke folder project ini.
 
 Catatan penting: website ini harus dijalankan dari root server, bukan dari subfolder. Ini karena alamat link di dalam kode diawali dengan tanda garis miring, contohnya `/pages/movies/list_film.php`.
 
@@ -135,6 +135,8 @@ Aturan sederhana saat menulis kode:
 - Gunakan fungsi e() saat menampilkan data ke halaman supaya aman dari XSS.
 - Taruh kode pengambil data di folder repositories.
 - Ikuti penamaan yang sudah ada. Nama fungsi dan variabel memakai bahasa Indonesia, dan CSS dipisah per halaman.
+
+Kalau menemukan bug atau punya ide, silakan buat Issue di GitHub.
 
 ## Kekurangan dan Rencana Pengembangan
 
