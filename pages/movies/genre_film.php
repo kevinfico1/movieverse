@@ -10,7 +10,7 @@ try {
     foreach ($genre_database as $nama_genre) {
         if (!in_array(strtolower($nama_genre), $genre_terdaftar, true)) {
             $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9]+/', '-', $nama_genre), '-'));
-            $genre[] = [$slug, $nama_genre, 'fa-solid fa-film', 'linear-gradient(120deg,#38305f,#7566b5,#b2a8e8)'];
+            $genre[] = [$slug, $nama_genre, 'fa-solid fa-film', 'linear-gradient(120deg,#38305f,#7566b5,#b2a8e8)', gambar_genre_otomatis($nama_genre), 'center 20%'];
             $genre_terdaftar[] = strtolower($nama_genre);
         }
     }
@@ -109,9 +109,14 @@ if ($pet_aktif == "aha") {
 
     <div class="area-genre">
       <div class="kolom-genre">
-        <?php foreach ($genre as $g) { ?>
+        <?php foreach ($genre as $g) {
+          $gambar_genre = trim($g[4] ?? '') !== '' ? $g[4] : '../../asset/genre/' . $g[0] . '.jpg';
+          $posisi_genre = trim($g[5] ?? '') !== '' ? $g[5] : 'center 20%';
+          if (!preg_match('/^[a-z0-9% .-]+$/i', $posisi_genre)) { $posisi_genre = 'center 20%'; }
+          $gambar_css   = str_replace(["'", '"', '\\', "\n", "\r", '(', ')'], ['%27', '%22', '%5C', '', '', '%28', '%29'], $gambar_genre);
+        ?>
           <div class="kartu-genre"
-               style="background-image: url('../../asset/genre/<?php echo $g[0]; ?>.jpg'), <?php echo $g[3]; ?>;">
+               style="background-image: url('<?php echo htmlspecialchars($gambar_css, ENT_QUOTES, 'UTF-8'); ?>'); background-position: <?php echo htmlspecialchars($posisi_genre, ENT_QUOTES, 'UTF-8'); ?>;">
             <span class="ikon-genre"><i class="<?php echo $g[2]; ?>"></i></span>
             <span class="nama-genre"><?php echo $g[1]; ?></span>
           </div>
