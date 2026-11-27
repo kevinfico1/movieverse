@@ -1,4 +1,6 @@
-/* ===== Halaman Daftar Film (list_film.php) ===== */
+body {
+  background-image: none;
+}
 
 .lf-wrap {
   width: 100%;
@@ -7,7 +9,6 @@
   padding: 110px 40px 50px;
 }
 
-/* --- Pencarian --- */
 .lf-search {
   display: flex;
   align-items: center;
@@ -43,7 +44,6 @@
   color: #6f7287;
 }
 
-/* --- Hero: judul genre + banner rekomendasi --- */
 .lf-hero {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
@@ -118,7 +118,6 @@
   background: linear-gradient(90deg, rgba(130, 120, 240, 0.5), rgba(255, 255, 255, 0.05));
 }
 
-/* --- Grid kartu film --- */
 .lf-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -158,7 +157,6 @@
   object-fit: cover;
 }
 
-/* Artwork pengganti poster: gradasi warna + judul besar */
 .lf-art {
   position: absolute;
   inset: 0;
@@ -209,7 +207,6 @@
   transition: color 0.2s ease;
 }
 
-/* judul ter-highlight saat kartu di-hover */
 .lf-card:hover .lf-info h3 {
   color: #a096ff;
 }
@@ -231,7 +228,6 @@
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-/* genre ter-highlight saat di-hover */
 .lf-tags li:hover {
   background: #8278f0;
   border-color: #8278f0;
@@ -267,7 +263,6 @@
   color: #8278f0;
 }
 
-/* --- Responsive --- */
 @media (max-width: 900px) {
   .lf-wrap { padding: 100px 20px 40px; }
   .lf-hero { grid-template-columns: 1fr; }
@@ -282,7 +277,6 @@
   .lf-card, .lf-info h3, .lf-tags li { transition: none; }
 }
 
-/* supaya atribut hidden (dipakai filter pencarian) tetap menyembunyikan elemen */
 .lf-card[hidden],
 .lf-empty[hidden] {
   display: none;

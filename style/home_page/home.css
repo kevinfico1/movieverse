@@ -1,3 +1,7 @@
+body {
+  background-image: none;
+}
+
 .katalog-container {
   padding: 10px 40px 40px 40px;
   display: flex;
