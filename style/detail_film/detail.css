@@ -144,9 +144,6 @@
   border-color: #ffffff;
 }
 
-/* ================================================= */
-/* BAGIAN KEY CARD (Area Putih Digeser ke Kanan/40%) */
-/* ================================================= */
 .key-card {
   position: relative;
   height: 180px;
@@ -222,7 +219,6 @@
 .btn-small:hover {
   background-color: #a096ff;
 }
-/* ================================================= */
 
 .detail-bottom {
   display: grid;
@@ -354,4 +350,164 @@
   width: 20px;
   height: 20px;
   object-fit: contain;
+}
+
+.kp-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 3000;
+}
+
+.kp-overlay[hidden] {
+  display: none;
+}
+
+.kp-card {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  padding: 70px 30px 36px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  background-color: #1b1e2e;
+  border: 2px solid #a99cff;
+  border-radius: 28px;
+  color: #ffffff;
+}
+
+.kp-ikon {
+  position: absolute;
+  top: -48px;
+  left: 50%;
+  width: 96px;
+  height: 96px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1b1e2e;
+  border: 2px solid #a99cff;
+  border-radius: 50%;
+  color: #7f75ee;
+  font-size: 42px;
+}
+
+.kp-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.kp-card p {
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.kp-tombol {
+  padding: 8px 26px;
+  background-color: #8278f0;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.kp-tombol:hover {
+  background-color: #a096ff;
+  transform: translateY(-2px);
+}
+
+.kp-iklan {
+  width: 100%;
+  max-width: 640px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  background-color: #0d0f1a;
+  border-radius: 6px;
+}
+
+.kp-iklan-gambar {
+  position: relative;
+  flex: 1;
+  min-height: 200px;
+  border: 3px solid #8278f0;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #151826;
+}
+
+.kp-iklan-gambar img {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+}
+
+.kp-iklan-kosong {
+  padding: 80px 20px;
+  text-align: center;
+  color: #c9c3ff;
+  font-size: 14px;
+}
+
+.kp-hitung {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 4px 10px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+}
+
+.kp-ambil {
+  display: block;
+  width: 100%;
+  padding: 16px 14px;
+  background: linear-gradient(90deg, #8278f0, #4d4496);
+  color: #ffffff;
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-align: center;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.kp-ambil[hidden] {
+  display: none;
+}
+
+.kp-ambil:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+  .kp-iklan {
+    padding: 20px;
+  }
 }
