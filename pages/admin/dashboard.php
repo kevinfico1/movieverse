@@ -60,7 +60,7 @@ try {
 
         $pdo->beginTransaction();
 
-        // Pastikan ID film baru selalu di atas ID film bawaan, supaya tampil di Daftar Film.
+        
         $id_terbesar = (int) $pdo->query('SELECT COALESCE(MAX(id), 0) FROM movies')->fetchColumn();
 
         if ($id_terbesar < ID_FILM_AWAL) {
