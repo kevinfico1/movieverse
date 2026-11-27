@@ -120,7 +120,7 @@ body {
 
 .lf-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 22px;
 }
 
@@ -144,7 +144,7 @@ body {
 
 .lf-thumb {
   position: relative;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2 / 3;
   overflow: hidden;
   border-radius: 8px;
   background: hsl(var(--hue), 45%, 14%);
@@ -166,7 +166,7 @@ body {
   padding: 12px;
   text-align: center;
   font-family: 'Syne', 'Segoe UI', sans-serif;
-  font-size: clamp(20px, 2.6vw, 30px);
+  font-size: clamp(16px, 2vw, 24px);
   font-weight: 800;
   line-height: 1.05;
   color: hsl(var(--hue), 80%, 88%);
@@ -266,11 +266,11 @@ body {
 @media (max-width: 900px) {
   .lf-wrap { padding: 100px 20px 40px; }
   .lf-hero { grid-template-columns: 1fr; }
-  .lf-grid { grid-template-columns: repeat(2, 1fr); }
+  .lf-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 560px) {
-  .lf-grid { grid-template-columns: 1fr; }
+  .lf-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
