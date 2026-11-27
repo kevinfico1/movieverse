@@ -10,6 +10,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aksi'] ?? '') === 'iklan')
     $_SESSION['boleh_klaim'] = true;
     $_SESSION['kunci']++;
 
+    // Ability Aha: tiap selesai nonton iklan ada peluang 20% dapat 1 kunci bonus (diambil di halaman Genre)
+    if (rand(1, 100) <= 20) {
+        $_SESSION['aha_siap'] = ($_SESSION['aha_siap'] ?? 0) + 1;
+    }
+
     header('Content-Type: application/json');
     echo json_encode(['kunci' => (int) $_SESSION['kunci']]);
     exit;
@@ -22,6 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aksi'] ?? '') === 'tonton'
     if ($boleh) {
         $_SESSION['kunci']--;
         $_SESSION['boleh_tonton'] = (int) ($_POST['id'] ?? 0);
+
+        // Ability Echo: tiap 5 episode ditonton dapat 1 kunci bonus (diambil di halaman Genre)
+        $_SESSION['tontonan'] = ($_SESSION['tontonan'] ?? 0) + 1;
+        if ($_SESSION['tontonan'] % 5 === 0) {
+            $_SESSION['echo_siap'] = ($_SESSION['echo_siap'] ?? 0) + 1;
+        }
     }
 
     header('Content-Type: application/json');
@@ -162,7 +173,6 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
 
   <?php require_once __DIR__ . '/../../components/landing/footer.php'; ?>
 
-  <!-- Pop up: kunci habis -->
   <div class="kp-overlay" id="popHabis" hidden>
     <div class="kp-card">
       <span class="kp-ikon"><i class="fa-solid fa-key"></i></span>
@@ -172,7 +182,6 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
     </div>
   </div>
 
-  <!-- Pop up: iklan (GIF) -->
   <div class="kp-overlay" id="popIklan" hidden>
     <div class="kp-iklan">
       <div class="kp-iklan-gambar">
