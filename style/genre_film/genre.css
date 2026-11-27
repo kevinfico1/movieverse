@@ -1,4 +1,3 @@
-
 .genre-page-body {
   padding-top: 80px;
   background-color: #2d3042;
@@ -66,7 +65,7 @@
   position: relative;
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2 kolom */
+  grid-template-columns: 1fr 1fr; 
   gap: 28px 26px;
 }
 
@@ -79,8 +78,10 @@
   padding: 0 12px;
   border: 2px solid #a99cff;
   border-radius: 12px;
+  background-color: #2d3042;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   text-decoration: none;
   transition: 0.3s;
 }
@@ -231,7 +232,7 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.75);
-  z-index: 2000; /* di atas topbar */
+  z-index: 2000;
 }
 
 .reward-box {
