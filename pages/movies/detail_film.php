@@ -4,16 +4,15 @@ session_start();
 if (!isset($_SESSION['kunci'])) {
     $_SESSION['kunci'] = 0;
 }
+
+// Klaim 1 kunci setelah iklan selesai (dipanggil lewat fetch dari halaman ini). Jumlah kunci tidak dibatasi.
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aksi'] ?? '') === 'iklan') {
     $_SESSION['boleh_klaim'] = true;
     $_SESSION['kunci']++;
 
-    $aha_gagal = $_SESSION['aha_gagal'] ?? 0;
-    if ($aha_gagal >= 4 || rand(1, 100) <= 20) {
+    // Ability Aha: tiap selesai nonton iklan ada peluang 20% dapat 1 kunci bonus (diambil di halaman Genre)
+    if (rand(1, 100) <= 20) {
         $_SESSION['aha_siap'] = ($_SESSION['aha_siap'] ?? 0) + 1;
-        $_SESSION['aha_gagal'] = 0;
-    } else {
-        $_SESSION['aha_gagal'] = $aha_gagal + 1;
     }
 
     header('Content-Type: application/json');
@@ -21,6 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aksi'] ?? '') === 'iklan')
     exit;
 }
 
+// Tombol Watch / OPEN: pakai 1 kunci lalu izinkan membuka halaman tontonan film ini
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aksi'] ?? '') === 'tonton') {
     $boleh = $_SESSION['kunci'] >= 1;
 
@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aksi'] ?? '') === 'tonton'
         $_SESSION['kunci']--;
         $_SESSION['boleh_tonton'] = (int) ($_POST['id'] ?? 0);
 
+        // Ability Echo: tiap 5 episode ditonton dapat 1 kunci bonus (diambil di halaman Genre)
         $_SESSION['tontonan'] = ($_SESSION['tontonan'] ?? 0) + 1;
         if ($_SESSION['tontonan'] % 5 === 0) {
             $_SESSION['echo_siap'] = ($_SESSION['echo_siap'] ?? 0) + 1;
@@ -39,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['aksi'] ?? '') === 'tonton'
     exit;
 }
 
+// Kembali ke halaman detail = izin tonton sebelumnya dicabut
 unset($_SESSION['boleh_tonton']);
 
 require_once __DIR__ . '/../../repositories/detail_film_repository.php';
@@ -57,9 +59,13 @@ $rating    = !empty($film['rating']) ? $film['rating'] : '8.3';
 $deskripsi = !empty($film['deskripsi']) ? $film['deskripsi'] : 'Serial ini akan berfokus pada karakter White Vision (Paul Bettany) yang diperkenalkan dalam WandaVision. Plotnya mengikuti perjalanan sintozoid tersebut saat ia berusaha memulihkan ingatannya yang hilang, mengeksplorasi kembali identitas dan keberadaannya, serta mencari tujuan baru dalam hidupnya setelah kehilangan keterikatan emosionalnya di Westview.';
 $poster    = !empty($film['poster']) ? $film['poster'] : 'https://i.pinimg.com/736x/9d/57/7e/9d577e728888b03995b0010d48204be3.jpg';
 
+// Poster yang sama dipakai sebagai background bagian atas (aman untuk dipakai di CSS url())
+$poster_css = str_replace(["'", '"', '(', ')', ' '], ['%27', '%22', '%28', '%29', '%20'], $poster);
+
 $episode = ambil_episode();
 $serupa  = ambil_serupa();
 
+// Lama putar GIF (ms), dihitung dari jeda antar frame. Kalau gagal dibaca, pakai 5 detik.
 function durasi_gif($file) {
     $isi = file_get_contents($file);
     $total = 0;
@@ -76,6 +82,7 @@ function durasi_gif($file) {
     return min($total, 30000);
 }
 
+// Iklan: file GIF ada di asset/ad/advertisement.gif
 $daftar_iklan = [];
 foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
     $daftar_iklan[] = [
@@ -103,7 +110,7 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
   <main class="detail-wrap">
     <div class="detail-box">
 
-      <section class="detail-top">
+      <section class="detail-top" style="--poster: url('<?= e($poster_css) ?>')">
         <div class="detail-poster">
           <img src="<?= e($poster) ?>" alt="<?= e($judul) ?>"
                onerror="this.onerror=null; this.src='https://via.placeholder.com/180x270';">
@@ -169,6 +176,7 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
 
   <?php require_once __DIR__ . '/../../components/landing/footer.php'; ?>
 
+  <!-- Pop up: kunci habis -->
   <div class="kp-overlay" id="popHabis" hidden>
     <div class="kp-card">
       <span class="kp-ikon"><i class="fa-solid fa-key"></i></span>
@@ -178,6 +186,7 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
     </div>
   </div>
 
+  <!-- Pop up: iklan (GIF) -->
   <div class="kp-overlay" id="popIklan" hidden>
     <div class="kp-iklan">
       <div class="kp-iklan-gambar">
@@ -189,6 +198,7 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
     </div>
   </div>
 
+  <!-- Pop up: proses & hasil -->
   <div class="kp-overlay" id="popHasil" hidden>
     <div class="kp-card">
       <span class="kp-ikon"><i class="fa-solid fa-key" id="ikonHasil"></i></span>
@@ -230,6 +240,7 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
       bukaPopKunci();
     });
 
+    // Tombol Watch dan OPEN: kalau ada kunci, pakai 1 kunci lalu buka halaman tontonan
     function mulaiTonton() {
       if (jumlahKunci === 0) {
         bukaPopKunci();
@@ -272,7 +283,7 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
       document.getElementById('tombolAmbil').hidden = true;
 
       if (iklan) {
-        gambar.src = iklan.src + '?t=' + Date.now(); 
+        gambar.src = iklan.src + '?t=' + Date.now(); // supaya GIF mulai dari awal
         gambar.hidden = false;
         kosong.hidden = true;
       } else {
@@ -321,6 +332,7 @@ foreach (glob(__DIR__ . '/../../asset/ad/advertisement.gif') ?: [] as $file) {
         });
     }
 
+    // Klik area gelap atau tekan Esc untuk menutup (kecuali saat iklan / proses)
     [popHabis, popHasil].forEach(function (pop) {
       pop.addEventListener('click', function (ev) {
         if (ev.target === pop && !sedangIklan && document.getElementById('judulHasil').textContent !== 'Memproses...') {
